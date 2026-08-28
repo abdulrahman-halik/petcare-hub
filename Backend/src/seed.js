@@ -4,6 +4,9 @@ const User = require('./models/User');
 const Category = require('./models/Category');
 const Product = require('./models/Product');
 const Review = require('./models/Review');
+const Pet = require('./models/Pet');
+const Reminder = require('./models/Reminder');
+const Notification = require('./models/Notification');
 
 const seedData = async () => {
     try {
@@ -16,7 +19,10 @@ const seedData = async () => {
         await Category.deleteMany({});
         await Product.deleteMany({});
         await Review.deleteMany({});
-        console.log('Cleared existing users, categories, products, and reviews.');
+        await Pet.deleteMany({});
+        await Reminder.deleteMany({});
+        await Notification.deleteMany({});
+        console.log('Cleared existing users, categories, products, reviews, pets, reminders, and notifications.');
 
         // 1. Create Users
         const adminUser = await User.create({
@@ -124,6 +130,24 @@ const seedData = async () => {
                 status: 'active'
             },
             {
+                name: 'Puppy Growth & DHA Brain Development Kibble',
+                description: 'Complete balanced nutrition specially formulated for growing puppies under 18 months. Packed with pasture-raised chicken, DHA from salmon oil, and calcium for strong bones.',
+                price: 42.50,
+                stock: 50,
+                category: catMap['dog-food-treats'],
+                supplier: supplierUser._id,
+                imageUrl: 'https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?auto=format&fit=crop&w=800&q=80',
+                images: [
+                    'https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?auto=format&fit=crop&w=800&q=80'
+                ],
+                brand: 'PuppyBloom',
+                petType: 'dog',
+                features: ['DHA for puppy cognitive development', 'Small bite-sized kibbles for puppy jaws', 'Triple calcium & phosphorus for bone strength', 'Vet formulated'],
+                rating: 4.9,
+                numReviews: 31,
+                status: 'active'
+            },
+            {
                 name: 'Crunchy Dental Chews with Mint & Spirulina',
                 description: 'Freshens dog breath while scraping away plaque and tartar buildup with every rewarding bite.',
                 price: 18.50,
@@ -182,7 +206,7 @@ const seedData = async () => {
                 name: 'Advanced Hip & Joint Glucosamine Chewables',
                 description: 'Powerful mobility formula with Glucosamine HCl, Chondroitin, MSM, and Turmeric to support cartilage repair and ease stiffness.',
                 price: 36.00,
-                stock: 4,
+                stock: 40,
                 category: catMap['health-medicine'],
                 supplier: supplierUser._id,
                 imageUrl: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
@@ -266,7 +290,7 @@ const seedData = async () => {
             },
             {
                 user: customerUser._id,
-                product: createdProducts[2]._id,
+                product: createdProducts[3]._id,
                 name: customerUser.name,
                 rating: 5,
                 comment: 'Extremely sturdy cat tree. My two adult cats jump around on it vigorously and it does not wobble at all.'
@@ -276,7 +300,147 @@ const seedData = async () => {
         await Review.insertMany(sampleReviews);
         console.log(`Created sample reviews.`);
 
-        console.log('--- SEEDING COMPLETED SUCCESSFULLY ---');
+        // 5. Create Sample Pet Profiles for Customer (Sarah Jenkins)
+        const samplePets = [
+            {
+                name: 'Bailey',
+                species: 'dog',
+                breed: 'Golden Retriever',
+                age: 0.8,
+                birthDate: new Date('2025-12-15'),
+                gender: 'male',
+                weight: 18,
+                activityLevel: 'high',
+                medicalConditions: ['Teething', 'Rapid Growth Stage'],
+                allergies: [],
+                dietaryPreferences: ['High-Protein', 'Grain-Free'],
+                microchipNumber: '985141002341908',
+                imageUrl: 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80',
+                owner: customerUser._id
+            },
+            {
+                name: 'Oliver',
+                species: 'cat',
+                breed: 'Persian Cat',
+                age: 8,
+                birthDate: new Date('2018-05-10'),
+                gender: 'male',
+                weight: 4.8,
+                activityLevel: 'low',
+                medicalConditions: ['Joint Stiffness / Arthritis', 'Hairballs'],
+                allergies: ['Wheat / Grain'],
+                dietaryPreferences: ['Grain-Free', 'Wet Gravy'],
+                microchipNumber: '985141002341909',
+                imageUrl: 'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=600&q=80',
+                owner: customerUser._id
+            },
+            {
+                name: 'Kiwi',
+                species: 'bird',
+                breed: 'Sun Conure',
+                age: 2,
+                birthDate: new Date('2024-03-20'),
+                gender: 'female',
+                weight: 0.12,
+                activityLevel: 'high',
+                medicalConditions: ['Beak Care Maintenance'],
+                allergies: [],
+                dietaryPreferences: ['Organic Seeds & Fresh Fruit'],
+                imageUrl: 'https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=600&q=80',
+                owner: customerUser._id
+            }
+        ];
+
+        const createdPets = await Pet.insertMany(samplePets);
+        console.log(`Created ${createdPets.length} pets for customer ${customerUser.name}.`);
+
+        // 6. Create Sample Pet Care Reminders
+        const bailey = createdPets[0];
+        const oliver = createdPets[1];
+
+        const now = new Date();
+        const addDays = (days) => {
+            const d = new Date(now);
+            d.setDate(d.getDate() + days);
+            return d;
+        };
+
+        const sampleReminders = [
+            {
+                owner: customerUser._id,
+                pet: bailey._id,
+                title: 'Rabies & DHPP Puppy Booster Shot',
+                type: 'vaccination',
+                dueDate: addDays(14),
+                time: '10:30 AM',
+                frequency: 'yearly',
+                notes: 'Visit Dr. Evans at Downtown Vet Clinic. Bring puppy vaccination booklet.',
+                status: 'pending',
+                isAutomated: true
+            },
+            {
+                owner: customerUser._id,
+                pet: bailey._id,
+                title: 'Monthly Flea & Tick Chewable',
+                type: 'medication',
+                dueDate: addDays(3),
+                time: '08:00 AM',
+                frequency: 'monthly',
+                notes: 'Give with morning meal. Brand: NexGard.',
+                status: 'pending',
+                isAutomated: false
+            },
+            {
+                owner: customerUser._id,
+                pet: bailey._id,
+                title: 'Puppy Socialization & Grooming Bath',
+                type: 'grooming',
+                dueDate: addDays(-2),
+                time: '02:00 PM',
+                frequency: 'monthly',
+                notes: 'Use gentle hypoallergenic oatmeal puppy wash and clean ear flaps.',
+                status: 'overdue',
+                isAutomated: false
+            },
+            {
+                owner: customerUser._id,
+                pet: oliver._id,
+                title: 'Senior Joint Glucosamine Supplement',
+                type: 'medication',
+                dueDate: addDays(1),
+                time: '09:00 AM',
+                frequency: 'daily',
+                notes: 'Mix 1 chew with Oliver’s morning wet salmon food pouch.',
+                status: 'pending',
+                isAutomated: false
+            },
+            {
+                owner: customerUser._id,
+                pet: oliver._id,
+                title: 'Senior Vitality & Dental Checkup',
+                type: 'vet-visit',
+                dueDate: addDays(45),
+                time: '11:00 AM',
+                frequency: 'yearly',
+                notes: 'Annual comprehensive geriatric wellness bloodwork and dental examination.',
+                status: 'pending',
+                isAutomated: true
+            }
+        ];
+
+        const createdReminders = await Reminder.insertMany(sampleReminders);
+        console.log(`Created ${createdReminders.length} sample pet care reminders.`);
+
+        // 7. Create Sample In-App Notification
+        await Notification.create({
+            user: customerUser._id,
+            title: '🐾 Pet Care Alert: Upcoming Medication',
+            message: `Oliver's Senior Joint Glucosamine Supplement is scheduled for tomorrow at 09:00 AM.`,
+            type: 'Reminder',
+            isRead: false
+        });
+
+        console.log('--- PHASE 4 SEEDING COMPLETED SUCCESSFULLY ---');
         process.exit(0);
     } catch (err) {
         console.error('Seeding Error:', err);

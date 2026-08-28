@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
 import ProductCard from '@/components/common/ProductCard';
+import SmartRecommendations from '@/components/recommendations/SmartRecommendations';
 
 export default function HomePage() {
     const router = useRouter();
@@ -196,6 +197,15 @@ export default function HomePage() {
                     ))}
                 </div>
             </section>
+
+            {/* SMART RECOMMENDATIONS FOR REGISTERED PETS */}
+            <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+                <SmartRecommendations
+                    title="🐾 Tailored Care For Your Pets"
+                    subtitle="Smart nutrition & health recommendations matching your pets' species and medical needs"
+                    limit={4}
+                />
+            </div>
 
             {/* FEATURED & TOP-RATED PRODUCTS */}
             <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">

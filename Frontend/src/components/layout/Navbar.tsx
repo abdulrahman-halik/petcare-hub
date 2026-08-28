@@ -17,7 +17,8 @@ import {
     LogOut,
     ChevronDown,
     Sparkles,
-    SlidersHorizontal
+    SlidersHorizontal,
+    CalendarCheck
 } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
 
@@ -111,6 +112,21 @@ export default function Navbar() {
                             <ShoppingBag className="w-4 h-4 text-emerald-600" />
                             Shop Catalog
                         </Link>
+
+                        {/* Customer Pets Dashboard Link */}
+                        {user && (
+                            <Link
+                                href="/pets"
+                                className={`hover:text-emerald-600 transition-colors flex items-center gap-1.5 ${
+                                    pathname === '/pets'
+                                        ? 'text-emerald-600 font-bold'
+                                        : 'text-gray-700'
+                                }`}
+                            >
+                                <span className="text-base">🐾</span>
+                                <span>My Pets & Care</span>
+                            </Link>
+                        )}
 
                         {/* Categories Dropdown */}
                         <div className="relative">
@@ -210,11 +226,19 @@ export default function Navbar() {
                                         </div>
 
                                         <Link
+                                            href="/pets"
+                                            className="flex items-center gap-2 px-4 py-2 text-sm text-emerald-700 font-bold hover:bg-emerald-50"
+                                        >
+                                            <span className="text-base">🐾</span>
+                                            My Pets & Care Hub
+                                        </Link>
+
+                                        <Link
                                             href="/profile"
                                             className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                                         >
                                             <UserIcon className="w-4 h-4 text-gray-400" />
-                                            My Profile
+                                            Account Settings
                                         </Link>
 
                                         {user.role === 'supplier' && (
@@ -320,6 +344,16 @@ export default function Navbar() {
                             >
                                 Shop All Products
                             </Link>
+
+                            {user && (
+                                <Link
+                                    href="/pets"
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className="px-3 py-2 rounded-lg text-base font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 flex items-center gap-2"
+                                >
+                                    <span>🐾 My Pets & Care Hub</span>
+                                </Link>
+                            )}
 
                             {user?.role === 'supplier' && (
                                 <Link

@@ -30,6 +30,28 @@ exports.protect = async (req, res, next) => {
     }
 };
 
+// Middleware that populates req.user if valid token exists, but doesn't block if guest
+exports.optionalAuth = async (req, res, next) => {
+    let token;
+
+    if (req.cookies && req.cookies.jwt) {
+        token = req.cookies.jwt;
+    } else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+        token = req.headers.authorization.split(' ')[1];
+    }
+
+    if (token) {
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret123');
+            req.user = await User.findById(decoded.id).select('-password');
+        } catch (error) {
+            // Token is invalid/expired, continue as guest
+            req.user = null;
+        }
+    }
+    next();
+};
+
 exports.authorize = (...roles) => {
     return (req, res, next) => {
         if (!req.user || !roles.includes(req.user.role)) {
