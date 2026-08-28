@@ -9,6 +9,9 @@ const connectDB = require('./config/db');
 // Route files
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
+const productRoutes = require('./routes/productRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
 
 // Connect to database
 connectDB();
@@ -28,6 +31,9 @@ app.use(morgan('dev'));
 // Mount routers
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Basic Health Check Endpoint
 app.get('/api/health', (req, res) => {
