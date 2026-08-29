@@ -1,6 +1,7 @@
 const Order = require('../models/Order');
 const Cart = require('../models/Cart');
 const Product = require('../models/Product');
+const { createNotification } = require('../services/notificationService');
 
 // @desc    Create order after successful payment
 // @route   POST /api/orders
@@ -98,6 +99,23 @@ exports.createOrder = async (req, res) => {
         cart.items = [];
         await cart.save();
 
+        await createNotification({
+            user: req.user._id,
+            title: '✅ Order confirmed',
+            message: `Your order has been placed successfully. Tracking will be shared as soon as it ships.`,
+            type: 'Order'
+        });
+
+        const supplierIds = [...new Set(orderItems.map(item => item.supplier?.toString()).filter(Boolean))];
+        for (const supplierId of supplierIds) {
+            await createNotification({
+                user: supplierId,
+                title: '📦 New order received',
+                message: 'A new customer order has been placed and requires fulfillment.',
+                type: 'Order'
+            });
+        }
+
         res.status(201).json({ status: 'success', data: { order } });
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message });
@@ -156,6 +174,78 @@ exports.getAllOrders = async (req, res) => {
             .sort({ createdAt: -1 });
 
         res.status(200).json({ status: 'success', count: orders.length, data: { orders } });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+};
+
+// @desc    Get supplier orders for fulfillment dashboard
+// @route   GET /api/orders/supplier/my-orders
+// @access  Private (Supplier, Admin)
+exports.getSupplierOrders = async (req, res) => {
+    try {
+        const query = { 'items.supplier': req.user._id };
+        const orders = await Order.find(query)
+            .populate('user', 'name email')
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({ status: 'success', count: orders.length, data: { orders } });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+};
+
+// @desc    Update order status and notify customer when order is shipped/delivered
+// @route   PATCH /api/orders/:orderId/status
+// @access  Private (Admin, Supplier)
+exports.updateOrderStatus = async (req, res) => {
+    try {
+        const { status } = req.body;
+        const validStatuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
+
+        if (!status || !validStatuses.includes(status)) {
+            return res.status(400).json({
+                status: 'fail',
+                message: `Status must be one of: ${validStatuses.join(', ')}`
+            });
+        }
+
+        const order = await Order.findById(req.params.orderId);
+        if (!order) {
+            return res.status(404).json({ status: 'fail', message: 'Order not found' });
+        }
+
+        if (req.user.role !== 'admin') {
+            const supplierMatch = order.items.some(item => item.supplier && item.supplier.toString() === req.user._id.toString());
+            if (!supplierMatch) {
+                return res.status(403).json({ status: 'fail', message: 'Not authorized to update this order' });
+            }
+        }
+
+        order.orderStatus = status;
+        if (status === 'delivered') {
+            order.isDelivered = true;
+            order.deliveredAt = new Date();
+        }
+
+        await order.save();
+
+        const statusMessageMap = {
+            processing: 'Your order is now being processed and prepared for shipment.',
+            shipped: 'Your order has shipped and is on its way to you.',
+            delivered: 'Your order has been delivered successfully. We hope your pet loves it!',
+            cancelled: 'Your order has been cancelled. Please contact support if you need assistance.'
+        };
+
+        const message = statusMessageMap[status] || 'Your order status has been updated.';
+        await createNotification({
+            user: order.user,
+            title: `📦 Order Update: ${status}`,
+            message,
+            type: 'Order'
+        });
+
+        res.status(200).json({ status: 'success', data: { order } });
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message });
     }
