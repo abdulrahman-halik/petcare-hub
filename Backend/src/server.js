@@ -16,6 +16,11 @@ const uploadRoutes = require('./routes/uploadRoutes');
 const petRoutes = require('./routes/petRoutes');
 const recommendationRoutes = require('./routes/recommendationRoutes');
 const reminderRoutes = require('./routes/reminderRoutes');
+const wishlistRoutes = require('./routes/wishlistRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 
 // Connect to database
 connectDB();
@@ -41,6 +46,11 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/pets', petRoutes);
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/reminders', reminderRoutes);
+app.use('/api/wishlist', wishlistRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/orders', orderRoutes);
 
 // Basic Health Check Endpoint
 app.get('/api/health', (req, res) => {

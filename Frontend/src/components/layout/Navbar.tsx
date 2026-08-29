@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useCart } from '@/context/CartContext';
 import {
     Search,
     ShoppingBag,
@@ -24,6 +25,7 @@ import axios from '@/lib/axiosConfig';
 
 export default function Navbar() {
     const { user, logout } = useAuth();
+    const { cartCount } = useCart();
     const pathname = usePathname();
     const router = useRouter();
 
@@ -56,7 +58,7 @@ export default function Navbar() {
     return (
         <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-xs transition-all">
             {/* Top Notification Bar */}
-            <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white text-xs py-1.5 px-4 text-center font-medium">
+            <div className="bg-linear-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white text-xs py-1.5 px-4 text-center font-medium">
                 <span>🐾 Free 2-Day Shipping on orders over $49! • 100% Vet-Approved Pet Essentials</span>
             </div>
 
@@ -64,11 +66,11 @@ export default function Navbar() {
                 <div className="flex items-center justify-between h-16 gap-4">
                     {/* Brand Logo */}
                     <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+                        <div className="w-10 h-10 rounded-xl bg-linear-to-br from-emerald-500 to-teal-700 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
                             <span className="text-xl">🐾</span>
                         </div>
                         <div className="flex flex-col">
-                            <span className="font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-emerald-800 to-teal-700 bg-clip-text text-transparent">
+                            <span className="font-extrabold text-lg sm:text-xl tracking-tight bg-linear-to-r from-emerald-800 to-teal-700 bg-clip-text text-transparent">
                                 PetCare<span className="text-emerald-500 font-black">Hub</span>
                             </span>
                             <span className="text-[10px] text-gray-500 -mt-1 font-medium tracking-wider uppercase">
@@ -171,6 +173,23 @@ export default function Navbar() {
 
                     {/* Right User Actions */}
                     <div className="flex items-center gap-3">
+                        {/* Wishlist & Cart icons — authenticated customers */}
+                        {user && user.role === 'customer' && (
+                            <div className="flex items-center gap-1">
+                                <Link href="/wishlist" className="relative p-2 rounded-full hover:bg-gray-100 transition-colors" title="Wishlist">
+                                    <Heart className="w-5 h-5 text-gray-600" />
+                                </Link>
+                                <Link href="/cart" className="relative p-2 rounded-full hover:bg-gray-100 transition-colors" title="Cart">
+                                    <ShoppingBag className="w-5 h-5 text-gray-600" />
+                                    {cartCount > 0 && (
+                                        <span className="absolute -top-0.5 -right-0.5 bg-emerald-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                                            {cartCount > 9 ? '9+' : cartCount}
+                                        </span>
+                                    )}
+                                </Link>
+                            </div>
+                        )}
+
                         {/* Supplier / Admin portal quick badges */}
                         {user?.role === 'supplier' && (
                             <Link
@@ -231,6 +250,22 @@ export default function Navbar() {
                                         >
                                             <span className="text-base">🐾</span>
                                             My Pets & Care Hub
+                                        </Link>
+
+                                        <Link
+                                            href="/orders"
+                                            className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                                        >
+                                            <Package className="w-4 h-4 text-gray-400" />
+                                            My Orders
+                                        </Link>
+
+                                        <Link
+                                            href="/wishlist"
+                                            className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                                        >
+                                            <Heart className="w-4 h-4 text-rose-400" />
+                                            My Wishlist
                                         </Link>
 
                                         <Link

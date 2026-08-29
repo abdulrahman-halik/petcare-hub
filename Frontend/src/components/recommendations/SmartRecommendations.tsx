@@ -86,7 +86,7 @@ export default function SmartRecommendations({
     };
 
     return (
-        <section className="w-full bg-gradient-to-b from-white via-emerald-50/20 to-white py-10 px-4 sm:px-6 lg:px-8 rounded-3xl border border-emerald-100/60 shadow-xs relative overflow-hidden">
+        <section className="w-full bg-linear-to-b from-white via-emerald-50/20 to-white py-10 px-4 sm:px-6 lg:px-8 rounded-3xl border border-emerald-100/60 shadow-xs relative overflow-hidden">
             {/* Background Glow */}
             <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-300/10 rounded-full blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 w-80 h-80 bg-teal-300/10 rounded-full blur-3xl pointer-events-none"></div>
