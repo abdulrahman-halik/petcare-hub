@@ -5,7 +5,7 @@ const notificationSchema = new mongoose.Schema({
     title: { type: String, required: true },
     message: { type: String, required: true },
     isRead: { type: Boolean, default: false },
-    type: { type: String, enum: ['Order', 'System', 'Promotion'], default: 'System' }
+    type: { type: String, enum: ['Order', 'System', 'Promotion', 'Reminder'], default: 'System' }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Notification', notificationSchema);
