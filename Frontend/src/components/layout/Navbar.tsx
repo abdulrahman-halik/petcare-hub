@@ -19,7 +19,9 @@ import {
     ChevronDown,
     Sparkles,
     SlidersHorizontal,
-    CalendarCheck
+    CalendarCheck,
+    Bell,
+    LayoutDashboard
 } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
 
@@ -117,17 +119,30 @@ export default function Navbar() {
 
                         {/* Customer Pets Dashboard Link */}
                         {user && (
-                            <Link
-                                href="/pets"
-                                className={`hover:text-emerald-600 transition-colors flex items-center gap-1.5 ${
-                                    pathname === '/pets'
-                                        ? 'text-emerald-600 font-bold'
-                                        : 'text-gray-700'
-                                }`}
-                            >
-                                <span className="text-base">🐾</span>
-                                <span>My Pets & Care</span>
-                            </Link>
+                            <>
+                                <Link
+                                    href="/dashboard"
+                                    className={`hover:text-emerald-600 transition-colors flex items-center gap-1.5 ${
+                                        pathname?.startsWith('/dashboard')
+                                            ? 'text-emerald-600 font-bold'
+                                            : 'text-gray-700'
+                                    }`}
+                                >
+                                    <LayoutDashboard className="w-4 h-4" />
+                                    <span>Dashboard</span>
+                                </Link>
+                                <Link
+                                    href="/pets"
+                                    className={`hover:text-emerald-600 transition-colors flex items-center gap-1.5 ${
+                                        pathname === '/pets'
+                                            ? 'text-emerald-600 font-bold'
+                                            : 'text-gray-700'
+                                    }`}
+                                >
+                                    <span className="text-base">🐾</span>
+                                    <span>My Pets & Care</span>
+                                </Link>
+                            </>
                         )}
 
                         {/* Categories Dropdown */}
@@ -174,19 +189,26 @@ export default function Navbar() {
                     {/* Right User Actions */}
                     <div className="flex items-center gap-3">
                         {/* Wishlist & Cart icons — authenticated customers */}
-                        {user && user.role === 'customer' && (
+                        {user && (
                             <div className="flex items-center gap-1">
-                                <Link href="/wishlist" className="relative p-2 rounded-full hover:bg-gray-100 transition-colors" title="Wishlist">
-                                    <Heart className="w-5 h-5 text-gray-600" />
+                                <Link href="/notifications" className="relative p-2 rounded-full hover:bg-gray-100 transition-colors" title="Notifications">
+                                    <Bell className="w-5 h-5 text-gray-600" />
                                 </Link>
-                                <Link href="/cart" className="relative p-2 rounded-full hover:bg-gray-100 transition-colors" title="Cart">
-                                    <ShoppingBag className="w-5 h-5 text-gray-600" />
-                                    {cartCount > 0 && (
-                                        <span className="absolute -top-0.5 -right-0.5 bg-emerald-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                                            {cartCount > 9 ? '9+' : cartCount}
-                                        </span>
-                                    )}
-                                </Link>
+                                {user.role === 'customer' && (
+                                    <>
+                                        <Link href="/wishlist" className="relative p-2 rounded-full hover:bg-gray-100 transition-colors" title="Wishlist">
+                                            <Heart className="w-5 h-5 text-gray-600" />
+                                        </Link>
+                                        <Link href="/cart" className="relative p-2 rounded-full hover:bg-gray-100 transition-colors" title="Cart">
+                                            <ShoppingBag className="w-5 h-5 text-gray-600" />
+                                            {cartCount > 0 && (
+                                                <span className="absolute -top-0.5 -right-0.5 bg-emerald-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                                                    {cartCount > 9 ? '9+' : cartCount}
+                                                </span>
+                                            )}
+                                        </Link>
+                                    </>
+                                )}
                             </div>
                         )}
 
