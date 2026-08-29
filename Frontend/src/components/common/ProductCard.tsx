@@ -1,9 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Star, ShieldCheck, Eye, Sparkles } from 'lucide-react';
+import { Star, ShieldCheck, Eye, Sparkles, Heart, ShoppingCart } from 'lucide-react';
+import axios from '@/lib/axiosConfig';
+import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 
 interface ProductCardProps {
     product: {
@@ -32,12 +35,39 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+    const { user } = useAuth();
+    const { addToCart, cart } = useCart();
+    const [addingCart, setAddingCart] = useState(false);
+    const [wishlisting, setWishlisting] = useState(false);
+    const [toastMsg, setToastMsg] = useState('');
+
+    const showToast = (msg: string) => { setToastMsg(msg); setTimeout(() => setToastMsg(''), 2500); };
+    const inCart = cart?.items?.some((i: any) => i.product === product._id) ?? false;
+
+    const handleAddToCart = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (!user) { window.location.href = '/login'; return; }
+        setAddingCart(true);
+        try { await addToCart(product._id, 1); showToast('Added to cart!'); }
+        catch (err: any) { showToast(err.response?.data?.message || 'Failed'); }
+        setAddingCart(false);
+    };
+
+    const handleWishlist = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (!user) { window.location.href = '/login'; return; }
+        setWishlisting(true);
+        try { await axios.post('/wishlist', { productId: product._id }); showToast('Saved to wishlist!'); }
+        catch (err: any) { showToast(err.response?.data?.message || 'Failed'); }
+        setWishlisting(false);
+    };
     const displayImage = product.imageUrl || (product.images && product.images[0]) || 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80';
     const isOutOfStock = product.stock <= 0;
     const isLowStock = product.stock > 0 && product.stock <= 5;
 
     return (
         <div className="group relative bg-white rounded-2xl border border-gray-100 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1">
+            {toastMsg && <div className="absolute top-2 left-1/2 -translate-x-1/2 z-50 bg-emerald-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md whitespace-nowrap">{toastMsg}</div>}
             {/* Image & Badges */}
             <div className="relative aspect-square w-full overflow-hidden bg-gray-50">
                 <Link href={`/products/${product._id}`} className="block w-full h-full">
@@ -128,16 +158,33 @@ export default function ProductCard({ product }: ProductCardProps) {
                         </span>
                     </div>
 
-                    <Link
-                        href={`/products/${product._id}`}
-                        className={`text-xs font-semibold px-3.5 py-2 rounded-xl transition-all shadow-xs flex items-center gap-1.5 ${
-                            isOutOfStock
-                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white group-hover:bg-emerald-600 group-hover:text-white'
-                        }`}
-                    >
-                        View Details
-                    </Link>
+                    <div className="flex items-center gap-1.5">
+                        {/* Wishlist button */}
+                        <button
+                            onClick={handleWishlist}
+                            disabled={wishlisting}
+                            title="Save to Wishlist"
+                            className="p-2 rounded-xl bg-rose-50 text-rose-400 hover:bg-rose-100 hover:text-rose-600 transition-colors"
+                        >
+                            <Heart className="w-4 h-4" />
+                        </button>
+
+                        {/* Add to Cart button */}
+                        <button
+                            onClick={handleAddToCart}
+                            disabled={isOutOfStock || addingCart}
+                            className={`text-xs font-semibold px-3 py-2 rounded-xl transition-all shadow-xs flex items-center gap-1.5 ${
+                                isOutOfStock
+                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                    : inCart
+                                        ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
+                                        : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white'
+                            }`}
+                        >
+                            <ShoppingCart className="w-3.5 h-3.5" />
+                            {addingCart ? '...' : inCart ? 'In Cart' : 'Add'}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
