@@ -8,7 +8,8 @@ import axios from '@/lib/axiosConfig';
 import { useAuth } from '@/context/AuthContext';
 
 export default function OrderConfirmationPage() {
-    const { id } = useParams<{ id: string }>();
+    const params = useParams();
+    const id = params?.id as string;
     const { user } = useAuth();
     const [order, setOrder] = useState<any>(null);
     const [loading, setLoading] = useState(true);

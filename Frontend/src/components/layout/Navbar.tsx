@@ -187,30 +187,30 @@ export default function Navbar() {
                     </nav>
 
                     {/* Right User Actions */}
-                    <div className="flex items-center gap-3">
-                        {/* Wishlist & Cart icons — authenticated customers */}
+                    <div className="flex items-center gap-2 sm:gap-3">
+                        {/* Notifications and Wishlist for logged-in users */}
                         {user && (
                             <div className="flex items-center gap-1">
                                 <Link href="/notifications" className="relative p-2 rounded-full hover:bg-gray-100 transition-colors" title="Notifications">
                                     <Bell className="w-5 h-5 text-gray-600" />
                                 </Link>
                                 {user.role === 'customer' && (
-                                    <>
-                                        <Link href="/wishlist" className="relative p-2 rounded-full hover:bg-gray-100 transition-colors" title="Wishlist">
-                                            <Heart className="w-5 h-5 text-gray-600" />
-                                        </Link>
-                                        <Link href="/cart" className="relative p-2 rounded-full hover:bg-gray-100 transition-colors" title="Cart">
-                                            <ShoppingBag className="w-5 h-5 text-gray-600" />
-                                            {cartCount > 0 && (
-                                                <span className="absolute -top-0.5 -right-0.5 bg-emerald-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                                                    {cartCount > 9 ? '9+' : cartCount}
-                                                </span>
-                                            )}
-                                        </Link>
-                                    </>
+                                    <Link href="/wishlist" className="relative p-2 rounded-full hover:bg-gray-100 transition-colors" title="Wishlist">
+                                        <Heart className="w-5 h-5 text-gray-600" />
+                                    </Link>
                                 )}
                             </div>
                         )}
+
+                        {/* Always Visible Shopping Cart */}
+                        <Link href="/cart" className="relative p-2 rounded-full hover:bg-gray-100 transition-colors" title="Cart">
+                            <ShoppingBag className="w-5 h-5 text-gray-700" />
+                            {cartCount > 0 && (
+                                <span className="absolute -top-0.5 -right-0.5 bg-emerald-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-in zoom-in duration-150">
+                                    {cartCount > 9 ? '9+' : cartCount}
+                                </span>
+                            )}
+                        </Link>
 
                         {/* Supplier / Admin portal quick badges */}
                         {user?.role === 'supplier' && (
@@ -400,6 +400,21 @@ export default function Navbar() {
                                 className="px-3 py-2 rounded-lg text-base font-medium text-gray-700 hover:bg-emerald-50 hover:text-emerald-700"
                             >
                                 Shop All Products
+                            </Link>
+                            <Link
+                                href="/cart"
+                                onClick={() => setIsMenuOpen(false)}
+                                className="px-3 py-2 rounded-lg text-base font-medium text-gray-700 hover:bg-emerald-50 hover:text-emerald-700 flex items-center justify-between"
+                            >
+                                <span className="flex items-center gap-2">
+                                    <ShoppingBag className="w-4 h-4 text-emerald-600" />
+                                    Shopping Cart
+                                </span>
+                                {cartCount > 0 && (
+                                    <span className="bg-emerald-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                                        {cartCount}
+                                    </span>
+                                )}
                             </Link>
 
                             {user && (

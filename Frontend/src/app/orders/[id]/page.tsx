@@ -16,7 +16,8 @@ const statusColor: Record<string, string> = {
 };
 
 export default function OrderDetailPage() {
-    const { id } = useParams<{ id: string }>();
+    const params = useParams();
+    const id = params?.id as string;
     const { user } = useAuth();
     const [order, setOrder] = useState<any>(null);
     const [loading, setLoading] = useState(true);

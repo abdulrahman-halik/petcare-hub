@@ -21,12 +21,14 @@ import {
 } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
 import { useAuth } from '@/context/AuthContext';
+import { useCart } from '@/context/CartContext';
 import ProductCard from '@/components/common/ProductCard';
 
 export default function ProductDetailPage() {
     const params = useParams();
     const router = useRouter();
     const { user } = useAuth();
+    const { addToCart } = useCart();
     const productId = (params?.id as string) || '';
 
     const [product, setProduct] = useState<any>(null);
@@ -72,9 +74,19 @@ export default function ProductDetailPage() {
         }
     }, [productId]);
 
-    const handleAddToCart = () => {
-        setAddedToast(true);
-        setTimeout(() => setAddedToast(false), 3000);
+    const handleAddToCart = async () => {
+        if (!product) return;
+        try {
+            await addToCart(product._id, quantity, {
+                name: product.name,
+                price: product.price,
+                imageUrl: product.imageUrl || (product.images && product.images[0]) || ''
+            });
+            setAddedToast(true);
+            setTimeout(() => setAddedToast(false), 3000);
+        } catch (err: any) {
+            alert(err.response?.data?.message || 'Failed to add to cart');
+        }
     };
 
     const handleReviewSubmit = async (e: React.FormEvent) => {

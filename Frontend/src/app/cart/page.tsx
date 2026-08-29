@@ -13,19 +13,15 @@ export default function CartPage() {
     const router = useRouter();
     const [updating, setUpdating] = useState<string | null>(null);
 
-    if (!user) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="text-center">
-                    <ShoppingBag className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h2 className="text-xl font-bold text-gray-800 mb-2">Sign in to view your cart</h2>
-                    <Link href="/login" className="bg-emerald-600 text-white px-6 py-2 rounded-xl font-semibold hover:bg-emerald-700 transition-colors inline-block mt-2">Sign In</Link>
-                </div>
-            </div>
-        );
-    }
-
     const items = cart?.items || [];
+
+    const handleCheckoutClick = () => {
+        if (!user) {
+            router.push('/login?redirect=/checkout');
+        } else {
+            router.push('/checkout');
+        }
+    };
 
     const handleQtyChange = async (productId: string, newQty: number) => {
         if (newQty < 1) return;
@@ -145,7 +141,7 @@ export default function CartPage() {
                             </div>
 
                             <button
-                                onClick={() => router.push('/checkout')}
+                                onClick={handleCheckoutClick}
                                 className="mt-6 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
                             >
                                 Proceed to Checkout <ArrowRight className="w-4 h-4" />

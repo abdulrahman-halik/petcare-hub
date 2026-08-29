@@ -15,6 +15,7 @@ import {
     Check
 } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
+import { useCart } from '@/context/CartContext';
 
 interface SmartRecommendationsProps {
     title?: string;
@@ -31,6 +32,7 @@ export default function SmartRecommendations({
     limit = 8,
     showViewAll = true
 }: SmartRecommendationsProps) {
+    const { addToCart } = useCart();
     const [recommendations, setRecommendations] = useState<any[]>([]);
     const [pets, setPets] = useState<any[]>([]);
     const [activeTab, setActiveTab] = useState<string>(selectedPetId || 'all');
@@ -78,11 +80,20 @@ export default function SmartRecommendations({
         fetchRecs();
     }, [activeTab, limit]);
 
-    const handleAddToCartMock = (productId: string) => {
-        setAddedCartIds(prev => ({ ...prev, [productId]: true }));
-        setTimeout(() => {
-            setAddedCartIds(prev => ({ ...prev, [productId]: false }));
-        }, 2000);
+    const handleAddToCart = async (product: any) => {
+        try {
+            await addToCart(product._id, 1, {
+                name: product.name,
+                price: product.price,
+                imageUrl: product.imageUrl || product.images?.[0] || ''
+            });
+            setAddedCartIds(prev => ({ ...prev, [product._id]: true }));
+            setTimeout(() => {
+                setAddedCartIds(prev => ({ ...prev, [product._id]: false }));
+            }, 2000);
+        } catch (err: any) {
+            console.error('Failed to add recommendation to cart:', err);
+        }
     };
 
     return (
@@ -264,7 +275,7 @@ export default function SmartRecommendations({
                                             </div>
 
                                             <button
-                                                onClick={() => handleAddToCartMock(product._id)}
+                                                onClick={() => handleAddToCart(product)}
                                                 className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs ${
                                                     isAdded
                                                         ? 'bg-emerald-700 text-white'

@@ -46,11 +46,20 @@ export default function ProductCard({ product }: ProductCardProps) {
 
     const handleAddToCart = async (e: React.MouseEvent) => {
         e.preventDefault();
-        if (!user) { window.location.href = '/login'; return; }
+        e.stopPropagation();
         setAddingCart(true);
-        try { await addToCart(product._id, 1); showToast('Added to cart!'); }
-        catch (err: any) { showToast(err.response?.data?.message || 'Failed'); }
-        setAddingCart(false);
+        try {
+            await addToCart(product._id, 1, {
+                name: product.name,
+                price: product.price,
+                imageUrl: displayImage
+            });
+            showToast('Added to cart!');
+        } catch (err: any) {
+            showToast(err.response?.data?.message || 'Failed to add');
+        } finally {
+            setAddingCart(false);
+        }
     };
 
     const handleWishlist = async (e: React.MouseEvent) => {
