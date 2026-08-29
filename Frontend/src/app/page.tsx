@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
 import ProductCard from '@/components/common/ProductCard';
+import SmartRecommendations from '@/components/recommendations/SmartRecommendations';
 
 export default function HomePage() {
     const router = useRouter();
@@ -62,8 +63,8 @@ export default function HomePage() {
     return (
         <div className="flex flex-col min-h-screen bg-gray-50/50">
             {/* HERO SECTION */}
-            <section className="relative overflow-hidden bg-gradient-to-br from-emerald-900 via-teal-900 to-slate-950 text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
-                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            <section className="relative overflow-hidden bg-linear-to-br from-emerald-900 via-teal-900 to-slate-950 text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] [bg-size:16px_16px]"></div>
                 
                 {/* Glow spheres */}
                 <div className="absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -78,7 +79,7 @@ export default function HomePage() {
 
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.15]">
                             Everything Your Pet Loved, <br />
-                            <span className="bg-gradient-to-r from-emerald-300 via-teal-200 to-cyan-300 bg-clip-text text-transparent">
+                            <span className="bg-linear-to-r from-emerald-300 via-teal-200 to-cyan-300 bg-clip-text text-transparent">
                                 Delivered In Hours.
                             </span>
                         </h1>
@@ -100,7 +101,7 @@ export default function HomePage() {
                                 />
                                 <button
                                     type="submit"
-                                    className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white text-sm font-bold px-6 py-3 rounded-xl transition-all shadow-md shrink-0 flex items-center gap-1.5"
+                                    className="bg-linear-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white text-sm font-bold px-6 py-3 rounded-xl transition-all shadow-md shrink-0 flex items-center gap-1.5"
                                 >
                                     Browse Shop
                                 </button>
@@ -126,7 +127,7 @@ export default function HomePage() {
                                     alt="Happy healthy dogs playing"
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent"></div>
                                 <div className="absolute bottom-4 left-4 right-4 text-white">
                                     <div className="flex items-center gap-1 text-amber-300 text-xs font-bold mb-1">
                                         <Star className="w-4 h-4 fill-amber-300" />
@@ -197,6 +198,15 @@ export default function HomePage() {
                 </div>
             </section>
 
+            {/* SMART RECOMMENDATIONS FOR REGISTERED PETS */}
+            <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+                <SmartRecommendations
+                    title="🐾 Tailored Care For Your Pets"
+                    subtitle="Smart nutrition & health recommendations matching your pets' species and medical needs"
+                    limit={4}
+                />
+            </div>
+
             {/* FEATURED & TOP-RATED PRODUCTS */}
             <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
@@ -239,8 +249,8 @@ export default function HomePage() {
 
             {/* SELLER & SUPPLIER CALLOUT */}
             <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-                <div className="bg-gradient-to-r from-teal-800 via-emerald-800 to-teal-900 rounded-3xl text-white p-8 sm:p-12 relative overflow-hidden shadow-2xl">
-                    <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent pointer-events-none"></div>
+                <div className="bg-linear-to-r from-teal-800 via-emerald-800 to-teal-900 rounded-3xl text-white p-8 sm:p-12 relative overflow-hidden shadow-2xl">
+                    <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-white via-transparent to-transparent pointer-events-none"></div>
 
                     <div className="relative z-10 max-w-2xl space-y-5">
                         <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-semibold text-emerald-200 backdrop-blur-md">

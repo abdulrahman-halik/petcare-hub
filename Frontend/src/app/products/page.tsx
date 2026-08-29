@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
 import ProductCard from '@/components/common/ProductCard';
+import SmartRecommendations from '@/components/recommendations/SmartRecommendations';
 
 function ProductsCatalogContent() {
     const searchParams = useSearchParams();
@@ -169,6 +170,16 @@ function ProductsCatalogContent() {
                         </div>
                     </div>
                 </div>
+
+                {/* Tailored Smart Recommendations section on catalog page */}
+                {currentPage === 1 && !keyword && (
+                    <SmartRecommendations
+                        title="✨ Recommended For You"
+                        subtitle="Tailored results automatically matched with your registered pet metrics"
+                        limit={4}
+                        showViewAll={false}
+                    />
+                )}
 
                 {/* Main Content Layout */}
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
