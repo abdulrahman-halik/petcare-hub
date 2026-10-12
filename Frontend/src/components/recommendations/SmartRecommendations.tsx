@@ -15,6 +15,7 @@ import {
     Check
 } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
+import { useAuth } from '@/context/AuthContext';
 
 interface SmartRecommendationsProps {
     title?: string;
@@ -31,6 +32,7 @@ export default function SmartRecommendations({
     limit = 8,
     showViewAll = true
 }: SmartRecommendationsProps) {
+    const { user } = useAuth();
     const [recommendations, setRecommendations] = useState<any[]>([]);
     const [pets, setPets] = useState<any[]>([]);
     const [activeTab, setActiveTab] = useState<string>(selectedPetId || 'all');
@@ -38,8 +40,14 @@ export default function SmartRecommendations({
     const [hasPets, setHasPets] = useState(false);
     const [addedCartIds, setAddedCartIds] = useState<{ [key: string]: boolean }>({});
 
-    // Fetch user pets
+    // Fetch user pets only if authenticated
     useEffect(() => {
+        if (!user) {
+            setPets([]);
+            setHasPets(false);
+            return;
+        }
+
         const loadPets = async () => {
             try {
                 const { data } = await axios.get('/pets');
@@ -47,13 +55,13 @@ export default function SmartRecommendations({
                 setPets(userPets);
                 setHasPets(userPets.length > 0);
             } catch (err) {
-                // Not authenticated or no pets
+                // No pets or auth failed
                 setPets([]);
                 setHasPets(false);
             }
         };
         loadPets();
-    }, []);
+    }, [user]);
 
     // Fetch recommendations based on activeTab
     useEffect(() => {
