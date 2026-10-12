@@ -3,8 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from '@/context/AuthContext';
 import { CartProvider } from '@/context/CartContext';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
+import AppShell from '@/components/layout/AppShell';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,14 +19,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className={`${inter.className} min-h-screen flex flex-col bg-gray-50 text-gray-900`}>
+      <body className={`${inter.className} min-h-screen bg-gray-50 text-gray-900`}>
         <AuthProvider>
           <CartProvider>
-            <Navbar />
-            <main className="flex-1">
+            <AppShell>
               {children}
-            </main>
-            <Footer />
+            </AppShell>
           </CartProvider>
         </AuthProvider>
       </body>

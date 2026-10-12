@@ -60,9 +60,9 @@ export default function WishlistPage() {
     );
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8 px-4">
+        <div className="space-y-6">
             {toast && <div className="fixed top-4 right-4 z-50 bg-emerald-600 text-white px-4 py-2 rounded-xl shadow-lg text-sm font-medium">{toast}</div>}
-            <div className="max-w-5xl mx-auto">
+            <div>
                 <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2 mb-8">
                     <Heart className="w-6 h-6 text-rose-500 fill-rose-500" /> My Wishlist
                     <span className="text-sm font-normal text-gray-500">({wishlist.length} {wishlist.length === 1 ? 'item' : 'items'})</span>

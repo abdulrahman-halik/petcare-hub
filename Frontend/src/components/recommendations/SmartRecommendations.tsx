@@ -2,20 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import {
-    Sparkles,
-    Heart,
-    Star,
-    ShoppingBag,
-    Tag,
-    ShieldCheck,
-    ChevronRight,
-    ArrowRight,
-    Info,
-    Check
-} from 'lucide-react';
+import { Sparkles, ArrowRight } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
 import { useAuth } from '@/context/AuthContext';
+import { useCart } from '@/context/CartContext';
+import RecommendationCard from './RecommendationCard';
 
 interface SmartRecommendationsProps {
     title?: string;
@@ -33,12 +24,14 @@ export default function SmartRecommendations({
     showViewAll = true
 }: SmartRecommendationsProps) {
     const { user } = useAuth();
+    const { addToCart } = useCart();
     const [recommendations, setRecommendations] = useState<any[]>([]);
     const [pets, setPets] = useState<any[]>([]);
     const [activeTab, setActiveTab] = useState<string>(selectedPetId || 'all');
     const [loading, setLoading] = useState(true);
     const [hasPets, setHasPets] = useState(false);
     const [addedCartIds, setAddedCartIds] = useState<{ [key: string]: boolean }>({});
+    const [addingCartId, setAddingCartId] = useState<string | null>(null);
 
     // Fetch user pets only if authenticated
     useEffect(() => {
@@ -55,7 +48,6 @@ export default function SmartRecommendations({
                 setPets(userPets);
                 setHasPets(userPets.length > 0);
             } catch (err) {
-                // No pets or auth failed
                 setPets([]);
                 setHasPets(false);
             }
@@ -68,10 +60,9 @@ export default function SmartRecommendations({
         const fetchRecs = async () => {
             try {
                 setLoading(true);
-                let endpoint = `/recommendations?limit=${limit}`;
-                if (activeTab !== 'all') {
-                    endpoint = `/recommendations/pet/${activeTab}?limit=${limit}`;
-                }
+                const endpoint = activeTab !== 'all'
+                    ? `/recommendations/pet/${activeTab}?limit=${limit}`
+                    : `/recommendations?limit=${limit}`;
 
                 const { data } = await axios.get(endpoint);
                 setRecommendations(data.data.recommendations || []);
@@ -86,21 +77,32 @@ export default function SmartRecommendations({
         fetchRecs();
     }, [activeTab, limit]);
 
-    const handleAddToCartMock = (productId: string) => {
-        setAddedCartIds(prev => ({ ...prev, [productId]: true }));
-        setTimeout(() => {
-            setAddedCartIds(prev => ({ ...prev, [productId]: false }));
-        }, 2000);
+    // Real Cart Integration
+    const handleAddToCart = async (productId: string) => {
+        if (!user) {
+            window.location.href = '/login';
+            return;
+        }
+        try {
+            setAddingCartId(productId);
+            await addToCart(productId, 1);
+            setAddedCartIds(prev => ({ ...prev, [productId]: true }));
+            setTimeout(() => {
+                setAddedCartIds(prev => ({ ...prev, [productId]: false }));
+            }, 2000);
+        } catch (err) {
+            console.error('Failed to add recommendation to cart:', err);
+        } finally {
+            setAddingCartId(null);
+        }
     };
 
     return (
         <section className="w-full bg-linear-to-b from-white via-emerald-50/20 to-white py-10 px-4 sm:px-6 lg:px-8 rounded-3xl border border-emerald-100/60 shadow-xs relative overflow-hidden">
-            {/* Background Glow */}
             <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-300/10 rounded-full blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 w-80 h-80 bg-teal-300/10 rounded-full blur-3xl pointer-events-none"></div>
 
             <div className="relative z-10 max-w-7xl mx-auto space-y-6">
-                {/* Header & Tabs */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
                         <div className="inline-flex items-center gap-1.5 bg-emerald-100/80 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full mb-2">
@@ -126,7 +128,6 @@ export default function SmartRecommendations({
                     )}
                 </div>
 
-                {/* Pet Switcher Tabs (If customer has pets) */}
                 {hasPets && (
                     <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
                         <button
@@ -156,11 +157,7 @@ export default function SmartRecommendations({
                                 }`}
                             >
                                 {pet.imageUrl ? (
-                                    <img
-                                        src={pet.imageUrl}
-                                        alt={pet.name}
-                                        className="w-5 h-5 rounded-full object-cover border border-white/40"
-                                    />
+                                    <img src={pet.imageUrl} alt={pet.name} className="w-5 h-5 rounded-full object-cover border border-white/40" />
                                 ) : (
                                     <span>{pet.species === 'cat' ? '🐈' : pet.species === 'dog' ? '🐕' : '🐾'}</span>
                                 )}
@@ -175,7 +172,6 @@ export default function SmartRecommendations({
                     </div>
                 )}
 
-                {/* Recommendations Grid */}
                 {loading ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {[1, 2, 3, 4].map((n) => (
@@ -195,107 +191,21 @@ export default function SmartRecommendations({
                         <p className="text-xs text-gray-500 max-w-md mx-auto">
                             Register your pets with age, breed, and health conditions to receive AI-tailored nutrition and wellness recommendations.
                         </p>
-                        <Link
-                            href="/pets"
-                            className="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all"
-                        >
+                        <Link href="/pets" className="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all">
                             Manage Pet Profiles
                         </Link>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {recommendations.map((item) => {
-                            const product = item.product;
-                            const isAdded = addedCartIds[product._id];
-                            return (
-                                <div
-                                    key={product._id}
-                                    className="group relative bg-white rounded-2xl border border-gray-100/80 hover:border-emerald-200 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden"
-                                >
-                                    {/* Top Image & Badges */}
-                                    <div className="relative aspect-square w-full overflow-hidden bg-gray-50 p-4">
-                                        <img
-                                            src={product.imageUrl || product.images?.[0] || 'https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=600&q=80'}
-                                            alt={product.name}
-                                            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-                                        />
-
-                                        {/* Relevance Match Score Pill */}
-                                        <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-extrabold text-emerald-700 border border-emerald-100 shadow-xs flex items-center gap-1">
-                                            <Sparkles className="w-3 h-3 text-emerald-500 fill-emerald-500" />
-                                            <span>{item.relevanceScore}% Match</span>
-                                        </div>
-
-                                        {/* Pet Name Tag (if matched to pet) */}
-                                        {item.matchedPet && (
-                                            <div className="absolute top-3 left-3 bg-emerald-900/80 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
-                                                <span>🐾 For {item.matchedPet.name}</span>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Card Body */}
-                                    <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
-                                        <div className="space-y-2">
-                                            {/* AI Recommendation Reason Banner */}
-                                            {item.primaryReason && (
-                                                <div className="bg-emerald-50/80 border border-emerald-200/60 rounded-xl p-2 text-[11px] font-semibold text-emerald-800 flex items-start gap-1.5 leading-tight">
-                                                    <Info className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                                                    <span className="line-clamp-2">{item.primaryReason}</span>
-                                                </div>
-                                            )}
-
-                                            {/* Category & Brand */}
-                                            <div className="flex items-center justify-between text-[11px] text-gray-400">
-                                                <span className="font-semibold uppercase tracking-wider text-emerald-600">
-                                                    {product.brand || product.category?.name || 'PetCare Hub'}
-                                                </span>
-                                                <div className="flex items-center gap-1 text-amber-500 font-bold">
-                                                    <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                                                    <span>{product.rating ? product.rating.toFixed(1) : '4.8'}</span>
-                                                </div>
-                                            </div>
-
-                                            {/* Product Title */}
-                                            <h3 className="font-bold text-sm text-gray-900 group-hover:text-emerald-600 transition-colors line-clamp-2 leading-snug">
-                                                {product.name}
-                                            </h3>
-                                        </div>
-
-                                        {/* Price and Action Button */}
-                                        <div className="pt-2 border-t border-gray-100 flex items-center justify-between gap-2">
-                                            <div>
-                                                <span className="text-xs text-gray-400 block -mb-0.5">Price</span>
-                                                <span className="text-lg font-black text-gray-900">
-                                                    ${product.price ? product.price.toFixed(2) : '24.99'}
-                                                </span>
-                                            </div>
-
-                                            <button
-                                                onClick={() => handleAddToCartMock(product._id)}
-                                                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs ${
-                                                    isAdded
-                                                        ? 'bg-emerald-700 text-white'
-                                                        : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20'
-                                                }`}
-                                            >
-                                                {isAdded ? (
-                                                    <>
-                                                        <Check className="w-3.5 h-3.5" />
-                                                        <span>Added!</span>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <ShoppingBag className="w-3.5 h-3.5" />
-                                                        <span>Add to Cart</span>
-                                                    </>
-                                                )}
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                        {recommendations.map((item) => (
+                            <RecommendationCard
+                                key={item.product._id}
+                                item={item}
+                                isAdded={!!addedCartIds[item.product._id]}
+                                isAdding={addingCartId === item.product._id}
+                                onAddToCart={handleAddToCart}
+                            />
+                        ))}
                     </div>
                 )}
             </div>

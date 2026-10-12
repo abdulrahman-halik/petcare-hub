@@ -9,7 +9,7 @@ import { useAuth } from '@/context/AuthContext';
 const statusIcon: Record<string, React.ReactNode> = {
     pending: <Clock className="w-4 h-4 text-amber-500" />,
     processing: <Package className="w-4 h-4 text-blue-500" />,
-    shipped: <Truck className="w-4 h-4 text-indigo-500" />,
+    shipped: <Truck className="w-4 h-4 text-teal-600" />,
     delivered: <CheckCircle className="w-4 h-4 text-emerald-500" />,
     cancelled: <XCircle className="w-4 h-4 text-red-500" />
 };
@@ -17,7 +17,7 @@ const statusIcon: Record<string, React.ReactNode> = {
 const statusColor: Record<string, string> = {
     pending: 'bg-amber-50 text-amber-700 border-amber-200',
     processing: 'bg-blue-50 text-blue-700 border-blue-200',
-    shipped: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+    shipped: 'bg-teal-50 text-teal-700 border-teal-200',
     delivered: 'bg-emerald-50 text-emerald-700 border-emerald-200',
     cancelled: 'bg-red-50 text-red-700 border-red-200'
 };
@@ -33,7 +33,7 @@ export default function OrdersPage() {
     }, [user]);
 
     if (!user) return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 text-center">
+        <div className="flex items-center justify-center p-12 text-center">
             <div><Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                 <h2 className="text-xl font-bold text-gray-800 mb-2">Sign in to view your orders</h2>
                 <Link href="/login" className="bg-emerald-600 text-white px-6 py-2 rounded-xl font-semibold hover:bg-emerald-700 inline-block mt-2">Sign In</Link>
@@ -42,9 +42,9 @@ export default function OrdersPage() {
     );
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8 px-4">
-            <div className="max-w-4xl mx-auto">
-                <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2 mb-8">
+        <div className="space-y-6">
+            <div>
+                <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2 mb-6">
                     <Package className="w-6 h-6 text-emerald-600" /> My Orders
                 </h1>
 
