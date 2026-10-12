@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Reminder = require('../models/Reminder');
 const Notification = require('../models/Notification');
 
@@ -6,6 +7,11 @@ const Notification = require('../models/Notification');
  */
 const checkRemindersNow = async () => {
     try {
+        if (mongoose.connection.readyState !== 1) {
+            console.log('[Scheduler] MongoDB not ready, skipping reminder check cycle.');
+            return { skipped: true, reason: 'Database not ready' };
+        }
+
         const now = new Date();
 
         // 1. Find and update overdue reminders

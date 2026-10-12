@@ -35,7 +35,7 @@ export default function NotificationsPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="space-y-6">
       <div className="flex items-center justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
           <Link href="/dashboard" className="p-2 rounded-full hover:bg-gray-100 text-gray-600">

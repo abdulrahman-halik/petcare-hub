@@ -92,7 +92,7 @@ export default function OrderDetailPage() {
                     <div className="bg-white rounded-2xl shadow-xs border border-gray-100 p-5">
                         <h2 className="font-semibold text-gray-800 mb-3 flex items-center gap-1.5"><CreditCard className="w-4 h-4 text-emerald-500" /> Payment</h2>
                         <div className="space-y-1 text-sm">
-                            <div className="flex justify-between"><span className="text-gray-500">Provider</span><span className="font-medium capitalize">{order.payment?.provider || 'mock'}</span></div>
+                            <div className="flex justify-between"><span className="text-gray-500">Provider</span><span className="font-medium capitalize">{order.payment?.provider || 'card'}</span></div>
                             <div className="flex justify-between"><span className="text-gray-500">Status</span>
                                 <span className={`font-semibold capitalize ${order.payment?.status === 'paid' ? 'text-emerald-600' : 'text-red-500'}`}>{order.payment?.status}</span>
                             </div>
