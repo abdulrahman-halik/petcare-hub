@@ -12,7 +12,7 @@ interface DashboardShellProps {
 
 const ROLE_CONFIG = {
     admin: {
-        title: 'Admin Console',
+        title: 'Admin Dashboard',
         badge: 'Administrator',
         badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
         navItems: [
@@ -22,7 +22,7 @@ const ROLE_CONFIG = {
         ] as NavItem[]
     },
     supplier: {
-        title: 'Supplier Portal',
+        title: 'Supplier Dashboard',
         badge: 'Verified Supplier',
         badgeColor: 'bg-teal-100 text-teal-800 border-teal-200',
         navItems: [
@@ -31,11 +31,11 @@ const ROLE_CONFIG = {
         ] as NavItem[]
     },
     customer: {
-        title: 'Pet Care Hub',
+        title: 'Customer Dashboard',
         badge: 'Pet Parent',
         badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
         navItems: [
-            { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, exact: true },
+            { label: 'Overview', href: '/dashboard', icon: LayoutDashboard, exact: true },
             { label: 'My Pets & Health', href: '/pets', icon: PawPrint },
             { label: 'My Orders', href: '/orders', icon: Package }
         ] as NavItem[]

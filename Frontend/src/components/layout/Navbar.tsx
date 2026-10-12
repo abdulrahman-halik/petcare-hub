@@ -97,19 +97,33 @@ export default function Navbar() {
                             <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-gray-700">
                                 <Link
                                     href="/"
-                                    className={`hover:text-emerald-600 transition-colors ${
-                                        pathname === '/' ? 'text-emerald-600 font-bold' : ''
-                                    }`}
+                                    className={`hover:text-emerald-600 transition-colors ${pathname === '/' ? 'text-emerald-600 font-bold' : ''
+                                        }`}
                                 >
                                     Home
                                 </Link>
                                 <Link
                                     href="/products"
-                                    className={`hover:text-emerald-600 transition-colors ${
-                                        pathname?.startsWith('/products') ? 'text-emerald-600 font-bold' : ''
-                                    }`}
+                                    className={`hover:text-emerald-600 transition-colors ${pathname?.startsWith('/products') ? 'text-emerald-600 font-bold' : ''
+                                        }`}
                                 >
                                     Shop Catalog
+                                </Link>
+
+                                <Link
+                                    href="/about"
+                                    className={`hover:text-emerald-600 transition-colors ${pathname?.startsWith('/about') ? 'text-emerald-600 font-bold' : ''
+                                        }`}
+                                >
+                                    About Us
+                                </Link>
+
+                                <Link
+                                    href="/contact"
+                                    className={`hover:text-emerald-600 transition-colors ${pathname?.startsWith('/contact') ? 'text-emerald-600 font-bold' : ''
+                                        }`}
+                                >
+                                    Contact Us
                                 </Link>
 
                                 {user?.role === 'customer' && (
