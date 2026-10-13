@@ -6,6 +6,7 @@ import { useAuth } from '@/context/AuthContext';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import DashboardShell from '@/components/layout/DashboardShell';
+import CartDrawer from '@/components/cart/CartDrawer';
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -34,7 +35,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     }
 
     if (isCustomerPortal) {
-        return <DashboardShell role="customer">{children}</DashboardShell>;
+        return (
+            <>
+                <DashboardShell role="customer">{children}</DashboardShell>
+                <CartDrawer />
+            </>
+        );
     }
 
     if (isSharedPortal) {
@@ -44,7 +50,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 : user?.role === 'supplier'
                 ? 'supplier'
                 : 'customer';
-        return <DashboardShell role={effectiveRole}>{children}</DashboardShell>;
+        return (
+            <>
+                <DashboardShell role={effectiveRole}>{children}</DashboardShell>
+                <CartDrawer />
+            </>
+        );
     }
 
     // Public / Storefront routes (e.g., /, /products, /login, /register, /cart, /checkout)
@@ -53,6 +64,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <Navbar />
             <main className="flex-1 w-full">{children}</main>
             <Footer />
+            <CartDrawer />
         </div>
     );
 }

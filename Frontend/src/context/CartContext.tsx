@@ -16,6 +16,10 @@ interface CartContextType {
     cart: { items: CartItem[]; subtotal: number; tax: number; shippingFee: number; total: number } | null;
     cartCount: number;
     loading: boolean;
+    isCartOpen: boolean;
+    setIsCartOpen: (open: boolean) => void;
+    openCart: () => void;
+    closeCart: () => void;
     addToCart: (productId: string, quantity?: number) => Promise<void>;
     updateQuantity: (productId: string, quantity: number) => Promise<void>;
     removeFromCart: (productId: string) => Promise<void>;
@@ -29,18 +33,56 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const { user } = useAuth();
     const [cart, setCart] = useState<CartContextType['cart']>(null);
     const [loading, setLoading] = useState(false);
+    const [isCartOpen, setIsCartOpen] = useState(false);
+
+    const openCart = useCallback(() => setIsCartOpen(true), []);
+    const closeCart = useCallback(() => setIsCartOpen(false), []);
 
     const refreshCart = useCallback(async () => {
-        if (!user) { setCart(null); return; }
+        if (!user) {
+            setCart(null);
+            return;
+        }
         try {
+            setLoading(true);
             const { data } = await axios.get('/cart');
             setCart(data.data.cart);
         } catch {
             setCart(null);
+        } finally {
+            setLoading(false);
         }
     }, [user]);
 
-    useEffect(() => { refreshCart(); }, [refreshCart]);
+    useEffect(() => {
+        if (!user) {
+            setCart(null);
+            return;
+        }
+
+        let isCancelled = false;
+        setLoading(true);
+        axios.get('/cart')
+            .then(res => {
+                if (!isCancelled) {
+                    setCart(res.data?.data?.cart || null);
+                }
+            })
+            .catch(() => {
+                if (!isCancelled) {
+                    setCart(null);
+                }
+            })
+            .finally(() => {
+                if (!isCancelled) {
+                    setLoading(false);
+                }
+            });
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [user]);
 
     const addToCart = async (productId: string, quantity = 1) => {
         await axios.post('/cart', { productId, quantity });
@@ -65,7 +107,20 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const cartCount = cart?.items?.reduce((sum, item) => sum + item.quantity, 0) ?? 0;
 
     return (
-        <CartContext.Provider value={{ cart, cartCount, loading, addToCart, updateQuantity, removeFromCart, clearCart, refreshCart }}>
+        <CartContext.Provider value={{
+            cart,
+            cartCount,
+            loading,
+            isCartOpen,
+            setIsCartOpen,
+            openCart,
+            closeCart,
+            addToCart,
+            updateQuantity,
+            removeFromCart,
+            clearCart,
+            refreshCart
+        }}>
             {children}
         </CartContext.Provider>
     );

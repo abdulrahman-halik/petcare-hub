@@ -36,7 +36,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
     const { user } = useAuth();
-    const { addToCart, cart } = useCart();
+    const { addToCart, cart, openCart } = useCart();
     const [addingCart, setAddingCart] = useState(false);
     const [wishlisting, setWishlisting] = useState(false);
     const [toastMsg, setToastMsg] = useState('');
@@ -46,9 +46,13 @@ export default function ProductCard({ product }: ProductCardProps) {
 
     const handleAddToCart = async (e: React.MouseEvent) => {
         e.preventDefault();
-        if (!user) { window.location.href = '/login'; return; }
+        if (!user) { window.location.href = `/login?redirect=/products/${product._id}`; return; }
         setAddingCart(true);
-        try { await addToCart(product._id, 1); showToast('Added to cart!'); }
+        try {
+            await addToCart(product._id, 1);
+            showToast('Added to cart!');
+            openCart();
+        }
         catch (err: any) { showToast(err.response?.data?.message || 'Failed'); }
         setAddingCart(false);
     };

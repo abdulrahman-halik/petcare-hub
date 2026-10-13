@@ -4,18 +4,21 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useCart } from '@/context/CartContext';
 import {
     Menu,
     X,
     LayoutDashboard,
     Store,
-    Shield
+    Shield,
+    ShoppingCart
 } from 'lucide-react';
 import NavbarUserMenu from './NavbarUserMenu';
 import NavbarMobileDrawer from './NavbarMobileDrawer';
 
 export default function Navbar() {
     const { user, logout } = useAuth();
+    const { cartCount, openCart } = useCart();
     const pathname = usePathname();
     const router = useRouter();
 
@@ -158,6 +161,21 @@ export default function Navbar() {
                             </nav>
 
                             <div className="flex items-center gap-3">
+                                {/* Cart Trigger Button with Reactive Badge */}
+                                <button
+                                    type="button"
+                                    onClick={openCart}
+                                    className="relative p-2 rounded-xl text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 transition-all border border-transparent hover:border-emerald-100 flex items-center justify-center group"
+                                    aria-label={`Open cart with ${cartCount} items`}
+                                >
+                                    <ShoppingCart className="w-5 h-5 transition-transform group-hover:scale-105" />
+                                    {cartCount > 0 && (
+                                        <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 bg-emerald-600 text-white text-[11px] font-black rounded-full flex items-center justify-center shadow-xs animate-in zoom-in-75 ring-2 ring-white">
+                                            {cartCount > 99 ? '99+' : cartCount}
+                                        </span>
+                                    )}
+                                </button>
+
                                 <NavbarUserMenu user={user} onSignOut={handleSignOut} />
 
                                 <button

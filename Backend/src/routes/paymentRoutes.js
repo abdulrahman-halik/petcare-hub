@@ -1,11 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const { protect } = require('../middlewares/authMiddleware');
-const { createPaymentIntent, mockPayment } = require('../controllers/paymentController');
+const { protect, optionalAuth } = require('../middlewares/authMiddleware');
+const {
+    getPayPalConfig,
+    createPayPalOrder,
+    capturePayPalOrder,
+    createPaymentIntent,
+    mockPayment
+} = require('../controllers/paymentController');
 
-router.use(protect);
+// Public or optional auth for retrieving PayPal client ID
+router.get('/paypal/config', optionalAuth, getPayPalConfig);
 
-router.post('/intent', createPaymentIntent);
-router.post('/mock', mockPayment);
+// Protected routes
+router.post('/paypal/create-order', protect, createPayPalOrder);
+router.post('/paypal/capture-order', protect, capturePayPalOrder);
+
+// Mock payment routes for developer staging/testing
+router.post('/intent', protect, createPaymentIntent);
+router.post('/mock', protect, mockPayment);
 
 module.exports = router;
