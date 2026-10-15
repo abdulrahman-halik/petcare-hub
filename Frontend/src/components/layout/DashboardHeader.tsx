@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import {
     Heart,
@@ -16,25 +16,23 @@ import { NavItem } from './DashboardSidebar';
 
 interface DashboardHeaderProps {
     role: 'admin' | 'supplier' | 'customer';
-    title: string;
+    title?: string;
     navItems: NavItem[];
     onOpenMobile: () => void;
 }
 
 export default function DashboardHeader({
     role,
-    title,
     navItems,
     onOpenMobile
 }: DashboardHeaderProps) {
     const { user, logout } = useAuth();
     const pathname = usePathname();
-    const router = useRouter();
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
     const handleSignOut = async () => {
+        setIsProfileDropdownOpen(false);
         await logout();
-        router.push('/login');
     };
 
     const currentNavLabel =
@@ -53,11 +51,7 @@ export default function DashboardHeader({
                     <Menu className="w-5 h-5" />
                 </button>
 
-                <div className="flex items-center gap-2 text-sm truncate">
-                    <span className="font-semibold text-gray-500 hidden sm:inline">
-                        {title}
-                    </span>
-                    <span className="text-gray-300 hidden sm:inline">/</span>
+                <div className="flex items-center text-sm truncate">
                     <span className="font-bold text-gray-900 truncate">
                         {currentNavLabel}
                     </span>

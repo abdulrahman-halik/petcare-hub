@@ -20,17 +20,28 @@ export default function ProductActionPanel({
     addingCart,
     addedToast
 }: ProductActionPanelProps) {
-    const isOutOfStock = product.stock === 0;
+    // 1. Dynamic Price & Stock Limits Calculation
+    const unitPrice = Number(product?.price || 0);
+    const availableStock = Math.max(0, Number(product?.stock || 0));
+    const isOutOfStock = availableStock === 0;
+
+    // Enforce bounds: minimum 1, maximum available stock
+    const clampedQuantity = isOutOfStock
+        ? 0
+        : Math.max(1, Math.min(availableStock || 1, quantity));
+
+    const dynamicTotal = unitPrice * clampedQuantity;
 
     return (
         <div className="space-y-6">
+            {/* Header / Brand & Title */}
             <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs font-bold text-gray-500 uppercase tracking-wider">
-                    <span className="text-emerald-700">{product.brand || product.category?.name || 'PetCare Hub'}</span>
-                    <span>SKU: {product._id?.slice(-6).toUpperCase()}</span>
+                    <span className="text-emerald-700">{product?.brand || product?.category?.name || 'PetCare Hub'}</span>
+                    <span>SKU: {product?._id?.slice(-6).toUpperCase()}</span>
                 </div>
                 <h1 className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight leading-tight">
-                    {product.name}
+                    {product?.name}
                 </h1>
                 <div className="flex items-center gap-3 pt-1">
                     <div className="flex items-center gap-1 text-amber-500">
@@ -38,7 +49,7 @@ export default function ProductActionPanel({
                             <Star
                                 key={s}
                                 className={`w-4 h-4 ${
-                                    s <= Math.round(product.rating || 5)
+                                    s <= Math.round(product?.rating || 5)
                                         ? 'fill-amber-400 text-amber-400'
                                         : 'text-gray-200'
                                 }`}
@@ -46,60 +57,77 @@ export default function ProductActionPanel({
                         ))}
                     </div>
                     <span className="text-xs font-bold text-gray-700">
-                        {product.rating ? product.rating.toFixed(1) : '5.0'}
+                        {product?.rating ? product.rating.toFixed(1) : '5.0'}
                     </span>
                     <span className="text-xs text-gray-400">
-                        ({product.numReviews || 0} customer reviews)
+                        ({product?.numReviews || 0} customer reviews)
                     </span>
                 </div>
             </div>
 
+            {/* DYNAMIC PRICE DISPLAY */}
             <div className="p-4 bg-emerald-50/50 rounded-2xl border border-emerald-100 flex items-baseline justify-between">
                 <div>
-                    <span className="text-xs text-gray-500 font-semibold block">Retail Price</span>
-                    <span className="text-3xl font-black text-gray-900">
-                        ${product.price?.toFixed(2)}
+                    <span className="text-xs text-gray-500 font-semibold block">
+                        {clampedQuantity > 1 ? 'Total Price' : 'Retail Price'}
                     </span>
+                    <div className="flex items-baseline gap-2">
+                        <span className="text-3xl font-black text-gray-900">
+                            ${dynamicTotal.toFixed(2)}
+                        </span>
+                        {clampedQuantity > 1 && (
+                            <span className="text-xs text-gray-500 font-semibold">
+                                (${unitPrice.toFixed(2)} × {clampedQuantity} units)
+                            </span>
+                        )}
+                    </div>
                 </div>
                 <div>
                     <span
                         className={`text-xs font-bold px-3 py-1 rounded-full ${
                             isOutOfStock
                                 ? 'bg-rose-100 text-rose-800'
-                                : product.stock <= 5
+                                : availableStock <= 5
                                 ? 'bg-amber-100 text-amber-800'
                                 : 'bg-emerald-100 text-emerald-800'
                         }`}
                     >
-                        {isOutOfStock ? 'Out of Stock' : `${product.stock} Units Available`}
+                        {isOutOfStock ? 'Out of Stock' : `${availableStock} Units Available`}
                     </span>
                 </div>
             </div>
 
-            {/* Quantity and Cart CTA */}
-            <div className="space-y-3 pt-2">
+            {/* QUANTITY AND ADD TO CART ACTION */}
+            <div className="space-y-4 pt-1">
                 <div className="flex items-center gap-4">
+                    {/* Quantity Stepper */}
                     <div className="flex items-center bg-gray-100 rounded-xl p-1 border border-gray-200">
                         <button
-                            onClick={() => onQuantityChange(Math.max(1, quantity - 1))}
-                            disabled={quantity <= 1 || isOutOfStock}
+                            type="button"
+                            onClick={() => onQuantityChange(Math.max(1, clampedQuantity - 1))}
+                            disabled={clampedQuantity <= 1 || isOutOfStock}
                             className="p-2 rounded-lg hover:bg-white text-gray-600 disabled:opacity-40 transition-colors"
+                            aria-label="Decrease quantity"
                         >
                             <Minus className="w-4 h-4" />
                         </button>
                         <span className="w-10 text-center font-bold text-sm text-gray-900">
-                            {quantity}
+                            {clampedQuantity}
                         </span>
                         <button
-                            onClick={() => onQuantityChange(Math.min(product.stock || 10, quantity + 1))}
-                            disabled={quantity >= (product.stock || 1) || isOutOfStock}
+                            type="button"
+                            onClick={() => onQuantityChange(Math.min(availableStock, clampedQuantity + 1))}
+                            disabled={clampedQuantity >= availableStock || isOutOfStock}
                             className="p-2 rounded-lg hover:bg-white text-gray-600 disabled:opacity-40 transition-colors"
+                            aria-label="Increase quantity"
                         >
                             <Plus className="w-4 h-4" />
                         </button>
                     </div>
 
+                    {/* Primary E-Commerce "Add to Cart" Button */}
                     <button
+                        type="button"
                         onClick={onAddToCart}
                         disabled={isOutOfStock || addingCart}
                         className={`flex-1 py-3.5 px-6 rounded-2xl font-extrabold text-sm shadow-md transition-all flex items-center justify-center gap-2 ${
@@ -107,7 +135,7 @@ export default function ProductActionPanel({
                                 ? 'bg-emerald-700 text-white'
                                 : isOutOfStock
                                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                                : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20'
+                                : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20 active:scale-[0.99]'
                         }`}
                     >
                         {addingCart ? (

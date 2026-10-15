@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ChevronRight, Sparkles, Store, MessageSquare } from 'lucide-react';
+import { ChevronRight, Sparkles, Store } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
@@ -16,7 +16,7 @@ export default function ProductDetailPage() {
     const params = useParams();
     const router = useRouter();
     const { user } = useAuth();
-    const { addToCart } = useCart();
+    const { addToCart, openCart } = useCart();
     const productId = (params?.id as string) || '';
 
     const [product, setProduct] = useState<any>(null);
@@ -58,14 +58,15 @@ export default function ProductDetailPage() {
 
     const handleAddToCart = async () => {
         if (!user) {
-            router.push('/login');
+            router.push(`/login?redirect=/products/${productId}`);
             return;
         }
         try {
             setAddingCart(true);
             await addToCart(productId, quantity);
             setAddedToast(true);
-            setTimeout(() => setAddedToast(false), 3000);
+            openCart();
+            setTimeout(() => setAddedToast(false), 2500);
         } catch (err) {
             console.error('Failed to add to cart:', err);
         } finally {

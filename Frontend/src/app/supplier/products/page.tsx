@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { Package, Plus, Search, Store } from 'lucide-react';
+import { Plus, Search, Store } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
 import SupplierStatsGrid from '@/components/supplier/SupplierStatsGrid';
 import SupplierProductTable from '@/components/supplier/SupplierProductTable';

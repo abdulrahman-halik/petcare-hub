@@ -3,14 +3,15 @@ const Product = require('../models/Product');
 /**
  * Validates stock availability and creates order items snapshot from active DB products
  */
-exports.buildAndValidateOrderItems = async (cartItems) => {
+exports.buildAndValidateOrderItems = async (cartItems, options = {}) => {
+    const { isDirectCheckout = false } = options;
     const orderItems = [];
     let subtotal = 0;
 
     for (const cartItem of cartItems) {
         const product = await Product.findById(cartItem.product);
         if (!product || product.status !== 'active') {
-            throw new Error(`Product "${cartItem.name}" is no longer available`);
+            throw new Error(`Product "${product?.name || cartItem.name || 'Item'}" is no longer available`);
         }
         if (product.stock < cartItem.quantity) {
             throw new Error(`Insufficient stock for "${product.name}". Available: ${product.stock}`);
@@ -32,9 +33,11 @@ exports.buildAndValidateOrderItems = async (cartItems) => {
     }
 
     subtotal = Math.round(subtotal * 100) / 100;
-    const TAX_RATE = 0.10;
-    const tax = Math.round(subtotal * TAX_RATE * 100) / 100;
-    const shippingFee = subtotal >= 50 ? 0 : 5;
+    // For 1-click direct product express checkout ("Buy Now"),
+    // amount matches exact unitPrice * quantity without unexpected shipping or tax surcharges
+    const TAX_RATE = isDirectCheckout ? 0 : 0.10;
+    const tax = isDirectCheckout ? 0 : Math.round(subtotal * TAX_RATE * 100) / 100;
+    const shippingFee = isDirectCheckout ? 0 : (subtotal >= 50 ? 0 : 5);
     const total = Math.round((subtotal + tax + shippingFee) * 100) / 100;
 
     return {

@@ -1,10 +1,64 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #f8fafc;
   --foreground: #0f172a;
+  --primary: #047857;
+  --primary-hover: #065f46;
+  --primary-active: #064e3b;
 }
 
 body {
+  background-color: var(--background);
   color: var(--foreground);
 }
+
+/* Unified interactive form controls & focus states across entire project */
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
+select:focus,
+textarea:focus {
+  border-color: #047857 !important;
+  box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.15) !important;
+  outline: none !important;
+}
+
+input[type="checkbox"]:focus,
+input[type="radio"]:focus {
+  box-shadow: 0 0 0 2px rgba(4, 120, 87, 0.25) !important;
+  outline: none !important;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: #047857 !important;
+}
+
+/* Global button utility for unified stand-out darker action styling */
+.btn-solid-dark {
+  background-color: #047857;
+  color: #ffffff;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-solid-dark:hover {
+  background-color: #065f46;
+}
+
+.btn-solid-dark:active {
+  background-color: #064e3b;
+}
+
+/* Ensure all primary buttons and interactive emerald actions stand out in matching darker tone across the entire site */
+.bg-emerald-600 {
+  background-color: #047857 !important;
+}
+
+.hover\:bg-emerald-700:hover,
+.hover\:bg-emerald-600:hover {
+  background-color: #065f46 !important;
+}
+
+.active\:bg-emerald-800:active {
+  background-color: #064e3b !important;
+}
+

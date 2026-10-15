@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { Package, MapPin, CreditCard, Clock, CheckCircle, Truck, ArrowLeft } from 'lucide-react';
+import { Package, MapPin, CreditCard, ArrowLeft } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
 import { useAuth } from '@/context/AuthContext';
 

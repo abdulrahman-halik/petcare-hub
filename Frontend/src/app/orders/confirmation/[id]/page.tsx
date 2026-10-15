@@ -21,10 +21,10 @@ export default function OrderConfirmationPage() {
     if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-emerald-600" /></div>;
 
     return (
-        <div className="min-h-screen bg-linear-to-b from-emerald-50 to-white flex items-center justify-center px-4 py-12">
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-12">
             <div className="max-w-md w-full text-center">
-                <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-200">
-                    <CheckCircle className="w-14 h-14 text-emerald-500" />
+                <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xs">
+                    <CheckCircle className="w-14 h-14 text-[#047857]" />
                 </div>
                 <h1 className="text-3xl font-extrabold text-gray-900 mb-2">Payment Successful!</h1>
                 <p className="text-gray-500 mb-8">Thank you for your order. Your pets will love it! 🐾</p>
@@ -37,11 +37,11 @@ export default function OrderConfirmationPage() {
                         </div>
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">Total Paid</span>
-                            <span className="font-bold text-emerald-700 text-lg">${order.total?.toFixed(2)}</span>
+                            <span className="font-bold text-[#047857] text-lg">${order.total?.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">Payment Status</span>
-                            <span className="font-semibold text-emerald-600 capitalize">{order.payment?.status || 'paid'}</span>
+                            <span className="font-semibold text-[#047857] capitalize">{order.payment?.status || 'paid'}</span>
                         </div>
                         <div className="flex justify-between text-sm">
                             <span className="text-gray-500">Order Status</span>
@@ -51,10 +51,10 @@ export default function OrderConfirmationPage() {
                 )}
 
                 <div className="flex flex-col gap-3">
-                    <Link href={`/orders/${id}`} className="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition-colors">
+                    <Link href={`/orders/${id}`} className="flex items-center justify-center gap-2 bg-[#047857] hover:bg-[#065f46] text-white font-bold py-3 px-6 rounded-xl transition-colors shadow-sm">
                         <Package className="w-4 h-4" /> View Order Details
                     </Link>
-                    <Link href="/products" className="flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-colors">
+                    <Link href="/products" className="flex items-center justify-center gap-2 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-semibold py-3 px-6 rounded-xl transition-colors">
                         <ShoppingBag className="w-4 h-4" /> Continue Shopping
                     </Link>
                 </div>

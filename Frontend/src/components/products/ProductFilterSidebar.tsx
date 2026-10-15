@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { SlidersHorizontal, RotateCcw, Check } from 'lucide-react';
+import { SlidersHorizontal, RotateCcw } from 'lucide-react';
 
 interface ProductFilterSidebarProps {
     categories: any[];

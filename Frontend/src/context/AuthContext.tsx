@@ -2,19 +2,32 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from '@/lib/axiosConfig';
+import { getRoleDashboardPath } from '@/lib/roleNavigation';
 
-interface User {
+export interface User {
     _id: string;
     name: string;
     email: string;
     role: string;
 }
 
+export interface LoginCredentials {
+    email: string;
+    password: string;
+}
+
+export interface RegisterUserData {
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+}
+
 interface AuthContextType {
     user: User | null;
     setUser: (user: User | null) => void;
-    login: (credentials: any) => Promise<void>;
-    register: (userData: any) => Promise<void>;
+    login: (credentials: LoginCredentials) => Promise<void>;
+    register: (userData: RegisterUserData) => Promise<void>;
     logout: () => Promise<void>;
     loading: boolean;
 }
@@ -31,7 +44,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             try {
                 const { data } = await axios.get('/users/profile');
                 setUser(data.data.user);
-            } catch (error) {
+            } catch {
                 setUser(null);
             } finally {
                 setLoading(false);
@@ -40,22 +53,37 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         fetchUser();
     }, []);
 
-    const login = async (credentials: any) => {
+    const login = async (credentials: LoginCredentials) => {
         const { data } = await axios.post('/auth/login', credentials);
-        setUser(data.data.user);
-        router.push('/');
+        const loggedUser = data.data.user;
+        setUser(loggedUser);
+        const destination = getRoleDashboardPath(loggedUser?.role);
+        router.push(destination);
     };
 
-    const register = async (userData: any) => {
-        const { data } = await axios.post('/auth/register', userData);
-        setUser(data.data.user);
-        router.push('/');
+    const register = async (userData: RegisterUserData) => {
+        await axios.post('/auth/register', userData);
+        try {
+            await axios.post('/auth/logout');
+        } catch {
+            // ignore logout error
+        }
+        setUser(null);
+        router.push('/login?registered=true');
     };
 
     const logout = async () => {
-        await axios.post('/auth/logout');
-        setUser(null);
-        router.push('/login');
+        try {
+            await axios.post('/auth/logout');
+        } catch {
+            // ignore logout error
+        }
+        if (typeof window !== 'undefined') {
+            window.location.replace('/');
+        } else {
+            setUser(null);
+            router.push('/');
+        }
     };
 
     return (

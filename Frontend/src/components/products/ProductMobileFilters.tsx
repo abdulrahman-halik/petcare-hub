@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { X, RotateCcw } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface ProductMobileFiltersProps {
     isOpen: boolean;

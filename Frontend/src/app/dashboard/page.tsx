@@ -46,7 +46,11 @@ export default function DashboardPage() {
   const [loadingData, setLoadingData] = useState(true);
 
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading) {
+      if (!user) {
+        router.replace('/login');
+        return;
+      }
       if (user.role === 'admin') {
         router.replace('/admin');
         return;
