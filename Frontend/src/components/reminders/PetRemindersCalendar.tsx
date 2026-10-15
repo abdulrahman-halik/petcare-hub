@@ -120,16 +120,16 @@ export default function PetRemindersCalendar({ pets, onRemindersChanged }: PetRe
     return (
         <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
             {/* Top Header & View Controls */}
-            <div className="p-6 sm:p-8 bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="p-6 sm:p-8 bg-emerald-50 border-b border-emerald-100 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                    <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-emerald-300 mb-2 border border-white/10">
-                        <CalendarCheck className="w-3.5 h-3.5 text-emerald-400" />
+                    <div className="inline-flex items-center gap-2 bg-emerald-100 px-3 py-1 rounded-full text-xs font-semibold text-[#047857] mb-2 border border-emerald-200">
+                        <CalendarCheck className="w-3.5 h-3.5 text-[#047857]" />
                         <span>Automated Health & Care Scheduling</span>
                     </div>
-                    <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
+                    <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900">
                         Pet Care Calendar & Reminders
                     </h2>
-                    <p className="text-sm text-emerald-100/80 mt-1 max-w-xl">
+                    <p className="text-sm text-slate-600 mt-1 max-w-xl">
                         Keep your pets happy & healthy with automated vaccine tracking, grooming cycles, and vet appointment logs.
                     </p>
                 </div>
@@ -138,16 +138,16 @@ export default function PetRemindersCalendar({ pets, onRemindersChanged }: PetRe
                     <button
                         onClick={() => setIsPlanModalOpen(true)}
                         disabled={pets.length === 0}
-                        className="bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-gray-900 font-extrabold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-2 disabled:opacity-50"
+                        className="bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition-all shadow-xs flex items-center gap-2 disabled:opacity-50 cursor-pointer"
                     >
-                        <Sparkles className="w-4 h-4 text-gray-900" />
+                        <Sparkles className="w-4 h-4 text-[#047857]" />
                         <span>⚡ Generate Vet Health Plan</span>
                     </button>
 
                     <button
                         onClick={() => handleOpenAddModal()}
                         disabled={pets.length === 0}
-                        className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-2 disabled:opacity-50"
+                        className="bg-[#047857] hover:bg-[#065f46] text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition-all shadow-sm flex items-center gap-2 disabled:opacity-50 cursor-pointer"
                     >
                         <Plus className="w-4 h-4" />
                         <span>Schedule Task</span>

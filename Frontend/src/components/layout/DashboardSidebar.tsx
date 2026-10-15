@@ -63,13 +63,13 @@ export default function DashboardSidebar({
                 {/* Sidebar Header */}
                 <div className="h-16 flex items-center justify-between px-4 border-b border-gray-100 shrink-0">
                     <Link href="/" className="flex items-center gap-2.5 overflow-hidden group">
-                        <div className="w-10 h-10 rounded-xl bg-linear-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 shrink-0 group-hover:scale-105 transition-transform">
+                        <div className="w-10 h-10 rounded-xl bg-[#047857] flex items-center justify-center text-white shadow-sm shrink-0 group-hover:scale-105 transition-transform">
                             <span className="text-xl">🐾</span>
                         </div>
                         {(!isCollapsed || isMobileOpen) && (
                             <div className="flex flex-col min-w-0">
-                                <span className="font-extrabold text-base tracking-tight bg-linear-to-r from-emerald-800 to-teal-700 bg-clip-text text-transparent truncate">
-                                    PetCare<span className="text-emerald-500 font-black">Hub</span>
+                                <span className="font-extrabold text-base tracking-tight text-slate-900 truncate">
+                                    PetCare<span className="text-[#047857] font-black">Hub</span>
                                 </span>
                                 <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider truncate">
                                     {title}

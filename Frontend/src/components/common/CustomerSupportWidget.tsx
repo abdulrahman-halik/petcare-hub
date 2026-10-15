@@ -117,7 +117,7 @@ export default function CustomerSupportWidget() {
             {isOpen && (
                 <div className="absolute bottom-16 right-0 w-[360px] sm:w-[400px] bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[580px] transition-all animate-in fade-in slide-in-from-bottom-4">
                     {/* Header */}
-                    <div className="bg-linear-to-r from-emerald-800 to-teal-800 text-white p-4.5 flex items-center justify-between shrink-0">
+                    <div className="bg-[#047857] text-white p-4.5 flex items-center justify-between shrink-0">
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-white shadow-xs">
                                 <Headphones className="w-5 h-5 text-emerald-300" />
@@ -306,7 +306,7 @@ export default function CustomerSupportWidget() {
                                         <button
                                             type="submit"
                                             disabled={isSubmitting}
-                                            className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-bold py-2.5 rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                                            className="w-full bg-[#047857] hover:bg-[#065f46] disabled:bg-slate-300 text-white font-bold py-2.5 rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                                         >
                                             {isSubmitting ? (
                                                 <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -333,7 +333,7 @@ export default function CustomerSupportWidget() {
                                     <button
                                         type="submit"
                                         disabled={isTracking || !trackId.trim()}
-                                        className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-bold px-3 py-2 rounded-xl transition-all cursor-pointer"
+                                        className="bg-[#047857] hover:bg-[#065f46] disabled:bg-slate-300 text-white font-bold px-3 py-2 rounded-xl transition-all cursor-pointer"
                                     >
                                         {isTracking ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Search className="w-3.5 h-3.5" />}
                                     </button>
@@ -384,7 +384,7 @@ export default function CustomerSupportWidget() {
             <button
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className="group relative flex items-center gap-2.5 bg-linear-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-xs sm:text-sm py-3 px-4 rounded-full shadow-lg shadow-emerald-700/30 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                className="group relative flex items-center gap-2.5 bg-[#047857] hover:bg-[#065f46] text-white font-bold text-xs sm:text-sm py-3 px-4 rounded-full shadow-lg shadow-emerald-950/20 hover:scale-105 active:scale-95 transition-all cursor-pointer"
                 title="Customer Support & Concierge"
             >
                 <div className="relative">

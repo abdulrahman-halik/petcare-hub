@@ -13,7 +13,11 @@ import {
     ArrowRight,
     Star,
     Info,
-    ChevronRight
+    ChevronRight,
+    Heart,
+    Shield,
+    Map,
+    Award
 } from 'lucide-react';
 
 interface PetShowcaseItem {
@@ -87,45 +91,41 @@ export default function AboutPage() {
     return (
         <div className="flex flex-col min-h-screen bg-slate-50/60 text-slate-900">
             {/* 1. Hero Section */}
-            <section className="relative overflow-hidden bg-linear-to-br from-emerald-900 via-teal-900 to-slate-950 text-white py-16 sm:py-24">
-                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] [bg-size:16px_16px] pointer-events-none" />
-                <div className="absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute top-1/2 -right-24 w-96 h-96 bg-teal-400/15 rounded-full blur-3xl pointer-events-none" />
-
+            <section className="relative overflow-hidden bg-emerald-50 text-slate-900 py-16 sm:py-24 border-b border-emerald-100/80">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-                    <div className="inline-flex items-center gap-2 bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full backdrop-blur-md mb-6">
-                        <Sparkles className="w-4 h-4 text-emerald-400" />
+                    <div className="inline-flex items-center gap-2 bg-white border border-emerald-200 text-[#047857] text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full shadow-2xs mb-6">
+                        <Sparkles className="w-4 h-4 text-[#047857]" />
                         <span>About PetCare Hub • Premium Care & Community Ecosystem</span>
                     </div>
 
-                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.15] max-w-4xl mx-auto">
+                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.15] max-w-4xl mx-auto text-slate-900">
                         Devoted to Pets, <br />
-                        <span className="bg-linear-to-r from-emerald-300 via-teal-200 to-cyan-300 bg-clip-text text-transparent">
+                        <span className="text-[#047857]">
                             Empowering Everyone Who Cares.
                         </span>
                     </h1>
 
-                    <p className="mt-6 text-base sm:text-lg text-emerald-100/80 max-w-2xl mx-auto leading-relaxed font-normal">
+                    <p className="mt-6 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed font-normal">
                         PetCare Hub is a dedicated digital marketplace and community hub connecting passionate pet parents, certified suppliers, entrepreneurs, and social pet gatherings under one trusted standard.
                     </p>
 
                     {/* Quick Stats Grid */}
                     <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto">
-                        <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 sm:p-5 text-center">
-                            <span className="block text-2xl sm:text-3xl font-black text-white">50K+</span>
-                            <span className="text-xs sm:text-sm text-emerald-200/80 font-medium mt-1">Happy Pets Served</span>
+                        <div className="bg-white border border-emerald-100 rounded-2xl p-4 sm:p-5 text-center shadow-2xs">
+                            <span className="block text-2xl sm:text-3xl font-black text-[#047857]">50K+</span>
+                            <span className="text-xs sm:text-sm text-slate-600 font-medium mt-1">Happy Pets Served</span>
                         </div>
-                        <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 sm:p-5 text-center">
-                            <span className="block text-2xl sm:text-3xl font-black text-white">100%</span>
-                            <span className="text-xs sm:text-sm text-emerald-200/80 font-medium mt-1">Vet-Screened Safety</span>
+                        <div className="bg-white border border-emerald-100 rounded-2xl p-4 sm:p-5 text-center shadow-2xs">
+                            <span className="block text-2xl sm:text-3xl font-black text-[#047857]">100%</span>
+                            <span className="text-xs sm:text-sm text-slate-600 font-medium mt-1">Vet-Screened Safety</span>
                         </div>
-                        <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 sm:p-5 text-center">
-                            <span className="block text-2xl sm:text-3xl font-black text-white">400+</span>
-                            <span className="text-xs sm:text-sm text-emerald-200/80 font-medium mt-1">Verified Suppliers</span>
+                        <div className="bg-white border border-emerald-100 rounded-2xl p-4 sm:p-5 text-center shadow-2xs">
+                            <span className="block text-2xl sm:text-3xl font-black text-[#047857]">400+</span>
+                            <span className="text-xs sm:text-sm text-slate-600 font-medium mt-1">Verified Suppliers</span>
                         </div>
-                        <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 sm:p-5 text-center">
-                            <span className="block text-2xl sm:text-3xl font-black text-white">24/7</span>
-                            <span className="text-xs sm:text-sm text-emerald-200/80 font-medium mt-1">Pet Parent Support</span>
+                        <div className="bg-white border border-emerald-100 rounded-2xl p-4 sm:p-5 text-center shadow-2xs">
+                            <span className="block text-2xl sm:text-3xl font-black text-[#047857]">24/7</span>
+                            <span className="text-xs sm:text-sm text-slate-600 font-medium mt-1">Pet Parent Support</span>
                         </div>
                     </div>
                 </div>
@@ -215,7 +215,7 @@ export default function AboutPage() {
                                 <div className="pt-2">
                                     <Link
                                         href={selectedShowcase.actionHref}
-                                        className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-xs"
+                                        className="inline-flex items-center gap-2 bg-[#047857] hover:bg-[#065f46] active:bg-[#064e3b] text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-xs"
                                     >
                                         <span>{selectedShowcase.actionLabel}</span>
                                         <ArrowRight className="w-4 h-4" />
@@ -302,176 +302,95 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            {/* 4. The 4 Core Pillars: Businesses (B2B), Consumers (B2C), Social Gatherings, Entrepreneurs */}
+            {/* 4. Our Values Section */}
             <section className="py-16 sm:py-24 bg-white border-y border-slate-200/80">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center max-w-3xl mx-auto mb-14">
-                        <span className="text-xs font-bold text-emerald-600 tracking-wider uppercase bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
-                            Our Ecosystem
-                        </span>
-                        <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-3">
-                            Empowering Every Corner of the Pet World
+                        <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                            Our Values
                         </h2>
-                        <p className="text-sm sm:text-base text-slate-600 mt-2">
-                            From wholesale suppliers and pet clinics to loving homes, social dog parks, and forward-thinking entrepreneurs—PetCare Hub is engineered to support everyone.
+                        <p className="text-sm sm:text-base text-slate-600 mt-3 max-w-2xl mx-auto leading-relaxed">
+                            These core principles guide everything we do at PetCareLanka, from how we build our platform to how we interact with our community.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {/* Pillar 1: Businesses (B2B) */}
-                        <div className="bg-slate-50/70 border border-slate-200/90 rounded-3xl p-6 sm:p-7 flex flex-col justify-between hover:shadow-md hover:border-emerald-300 transition-all group">
-                            <div>
-                                <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
-                                    <Building2 className="w-6 h-6" />
-                                </div>
-                                <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/60">
-                                    Businesses (B2B)
-                                </span>
-                                <h3 className="text-lg font-bold text-slate-900 mt-3 mb-2">
-                                    Suppliers & Veterinary Clinics
-                                </h3>
-                                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                                    Streamline bulk procurement, list verified catalogs, manage wholesale shipping, and connect directly with thousands of pet parents.
-                                </p>
-                                <ul className="space-y-2 text-xs text-slate-600 mb-6">
-                                    <li className="flex items-center gap-2">
-                                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                                        <span>Direct B2B seller dashboard</span>
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                                        <span>Automated inventory & orders</span>
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                                        <span>Verified badge & compliance</span>
-                                    </li>
-                                </ul>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                        {/* 1. Pet Welfare First */}
+                        <div className="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-8 shadow-xs hover:border-emerald-300 hover:shadow-md transition-all flex flex-col justify-start">
+                            <div className="w-11 h-11 rounded-full bg-emerald-50 text-[#047857] border border-emerald-100 flex items-center justify-center mb-5 shrink-0">
+                                <Heart className="w-5 h-5 text-[#047857]" />
                             </div>
-                            <Link
-                                href="/supplier"
-                                className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 hover:text-emerald-800 transition-colors pt-3 border-t border-slate-200/60"
-                            >
-                                <span>Supplier Portal</span>
-                                <ChevronRight className="w-3.5 h-3.5" />
-                            </Link>
+                            <h3 className="text-lg font-bold text-slate-900 mb-2">
+                                Pet Welfare First
+                            </h3>
+                            <p className="text-sm text-slate-600 leading-relaxed">
+                                We believe in putting the health and happiness of pets at the center of everything we do.
+                            </p>
                         </div>
 
-                        {/* Pillar 2: Consumers (B2C) */}
-                        <div className="bg-slate-50/70 border border-slate-200/90 rounded-3xl p-6 sm:p-7 flex flex-col justify-between hover:shadow-md hover:border-teal-300 transition-all group">
-                            <div>
-                                <div className="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
-                                    <Users className="w-6 h-6" />
-                                </div>
-                                <span className="text-[11px] font-bold uppercase tracking-wider text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-200/60">
-                                    Consumers (B2C)
-                                </span>
-                                <h3 className="text-lg font-bold text-slate-900 mt-3 mb-2">
-                                    Families & Pet Parents
-                                </h3>
-                                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                                    Access top-tier nutrition, safe grooming essentials, and smart health accessories tailored to your dog or cat with doorstep delivery.
-                                </p>
-                                <ul className="space-y-2 text-xs text-slate-600 mb-6">
-                                    <li className="flex items-center gap-2">
-                                        <CheckCircle2 className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-                                        <span>Personalized pet health profiles</span>
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <CheckCircle2 className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-                                        <span>Free 2-day delivery over $49</span>
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <CheckCircle2 className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-                                        <span>24/7 Care advisor support</span>
-                                    </li>
-                                </ul>
+                        {/* 2. Trust & Reliability */}
+                        <div className="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-8 shadow-xs hover:border-emerald-300 hover:shadow-md transition-all flex flex-col justify-start">
+                            <div className="w-11 h-11 rounded-full bg-emerald-50 text-[#047857] border border-emerald-100 flex items-center justify-center mb-5 shrink-0">
+                                <Shield className="w-5 h-5 text-[#047857]" />
                             </div>
-                            <Link
-                                href="/products"
-                                className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-700 hover:text-teal-800 transition-colors pt-3 border-t border-slate-200/60"
-                            >
-                                <span>Browse Catalog</span>
-                                <ChevronRight className="w-3.5 h-3.5" />
-                            </Link>
+                            <h3 className="text-lg font-bold text-slate-900 mb-2">
+                                Trust & Reliability
+                            </h3>
+                            <p className="text-sm text-slate-600 leading-relaxed">
+                                We work to ensure our platform provides accurate, verified information you can depend on.
+                            </p>
                         </div>
 
-                        {/* Pillar 3: Social Gatherings */}
-                        <div className="bg-slate-50/70 border border-slate-200/90 rounded-3xl p-6 sm:p-7 flex flex-col justify-between hover:shadow-md hover:border-cyan-300 transition-all group">
-                            <div>
-                                <div className="w-12 h-12 rounded-2xl bg-cyan-100 text-cyan-700 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
-                                    <UsersRound className="w-6 h-6" />
-                                </div>
-                                <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-700 bg-cyan-50 px-2.5 py-0.5 rounded-full border border-cyan-200/60">
-                                    Community
-                                </span>
-                                <h3 className="text-lg font-bold text-slate-900 mt-3 mb-2">
-                                    Social Gatherings & Events
-                                </h3>
-                                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                                    Bringing local pet communities together through puppy play dates, rescue adoption days, training seminars, and charity dog walks.
-                                </p>
-                                <ul className="space-y-2 text-xs text-slate-600 mb-6">
-                                    <li className="flex items-center gap-2">
-                                        <CheckCircle2 className="w-3.5 h-3.5 text-cyan-600 shrink-0" />
-                                        <span>Local dog park meetups</span>
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <CheckCircle2 className="w-3.5 h-3.5 text-cyan-600 shrink-0" />
-                                        <span>Shelter adoption collaboration</span>
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <CheckCircle2 className="w-3.5 h-3.5 text-cyan-600 shrink-0" />
-                                        <span>Group care supply discounts</span>
-                                    </li>
-                                </ul>
+                        {/* 3. Local Focus */}
+                        <div className="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-8 shadow-xs hover:border-emerald-300 hover:shadow-md transition-all flex flex-col justify-start">
+                            <div className="w-11 h-11 rounded-full bg-emerald-50 text-[#047857] border border-emerald-100 flex items-center justify-center mb-5 shrink-0">
+                                <Map className="w-5 h-5 text-[#047857]" />
                             </div>
-                            <Link
-                                href="/contact"
-                                className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-700 hover:text-cyan-800 transition-colors pt-3 border-t border-slate-200/60"
-                            >
-                                <span>Host or Join Event</span>
-                                <ChevronRight className="w-3.5 h-3.5" />
-                            </Link>
+                            <h3 className="text-lg font-bold text-slate-900 mb-2">
+                                Local Focus
+                            </h3>
+                            <p className="text-sm text-slate-600 leading-relaxed">
+                                We're committed to understanding and serving the unique needs of pet owners in Sri Lanka.
+                            </p>
                         </div>
 
-                        {/* Pillar 4: Entrepreneurs */}
-                        <div className="bg-slate-50/70 border border-slate-200/90 rounded-3xl p-6 sm:p-7 flex flex-col justify-between hover:shadow-md hover:border-emerald-300 transition-all group">
-                            <div>
-                                <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
-                                    <Rocket className="w-6 h-6" />
-                                </div>
-                                <span className="text-[11px] font-bold uppercase tracking-wider text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/60">
-                                    Growth & Startups
-                                </span>
-                                <h3 className="text-lg font-bold text-slate-900 mt-3 mb-2">
-                                    Pet Entrepreneurs & Creators
-                                </h3>
-                                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                                    Launch and scale your artisanal pet bakery, grooming brand, mobile dog training studio, or pet tech venture with our partner ecosystem.
-                                </p>
-                                <ul className="space-y-2 text-xs text-slate-600 mb-6">
-                                    <li className="flex items-center gap-2">
-                                        <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                                        <span>Marketplace onboarding guidance</span>
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                                        <span>Co-promotions & audience reach</span>
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                                        <span>Transparent analytics & growth</span>
-                                    </li>
-                                </ul>
+                        {/* 4. Community Building */}
+                        <div className="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-8 shadow-xs hover:border-emerald-300 hover:shadow-md transition-all flex flex-col justify-start">
+                            <div className="w-11 h-11 rounded-full bg-emerald-50 text-[#047857] border border-emerald-100 flex items-center justify-center mb-5 shrink-0">
+                                <Users className="w-5 h-5 text-[#047857]" />
                             </div>
-                            <Link
-                                href="/contact"
-                                className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-800 hover:text-amber-900 transition-colors pt-3 border-t border-slate-200/60"
-                            >
-                                <span>Partner with Us</span>
-                                <ChevronRight className="w-3.5 h-3.5" />
-                            </Link>
+                            <h3 className="text-lg font-bold text-slate-900 mb-2">
+                                Community Building
+                            </h3>
+                            <p className="text-sm text-slate-600 leading-relaxed">
+                                We believe in fostering connections between pet owners, care providers, and enthusiasts.
+                            </p>
+                        </div>
+
+                        {/* 5. Quality Standards */}
+                        <div className="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-8 shadow-xs hover:border-emerald-300 hover:shadow-md transition-all flex flex-col justify-start">
+                            <div className="w-11 h-11 rounded-full bg-emerald-50 text-[#047857] border border-emerald-100 flex items-center justify-center mb-5 shrink-0">
+                                <Award className="w-5 h-5 text-[#047857]" />
+                            </div>
+                            <h3 className="text-lg font-bold text-slate-900 mb-2">
+                                Quality Standards
+                            </h3>
+                            <p className="text-sm text-slate-600 leading-relaxed">
+                                We promote excellence in pet care through rigorous listing standards and reviews.
+                            </p>
+                        </div>
+
+                        {/* 6. Accessibility */}
+                        <div className="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-8 shadow-xs hover:border-emerald-300 hover:shadow-md transition-all flex flex-col justify-start">
+                            <div className="w-11 h-11 rounded-full bg-emerald-50 text-[#047857] border border-emerald-100 flex items-center justify-center mb-5 shrink-0">
+                                <Heart className="w-5 h-5 text-[#047857]" />
+                            </div>
+                            <h3 className="text-lg font-bold text-slate-900 mb-2">
+                                Accessibility
+                            </h3>
+                            <p className="text-sm text-slate-600 leading-relaxed">
+                                We strive to make quality pet care information accessible to everyone across the island.
+                            </p>
                         </div>
                     </div>
                 </div>

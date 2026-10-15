@@ -8,12 +8,8 @@ import { useCart } from '@/context/CartContext';
 import {
     Menu,
     X,
-    LayoutDashboard,
-    Store,
-    Shield,
     ShoppingCart
 } from 'lucide-react';
-import NavbarUserMenu from './NavbarUserMenu';
 import NavbarMobileDrawer from './NavbarMobileDrawer';
 
 export default function Navbar() {
@@ -36,21 +32,16 @@ export default function Navbar() {
 
     return (
         <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-xs transition-all">
-            {/* Top Notification Announcement Bar */}
-            <div className="bg-emerald-600 text-white text-xs py-2 px-4 text-center font-medium tracking-wide">
-                <span>• Free 2-Day Shipping on orders over $49! • 100% Vet-Approved Pet Essentials</span>
-            </div>
-
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16 gap-6">
+                <div className="flex items-center justify-between h-16">
                     {/* Brand Logo */}
                     <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-                        <div className="w-9 h-9 rounded-xl bg-linear-to-br from-[#059669] to-[#0d9488] flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
+                        <div className="w-9 h-9 rounded-xl bg-[#047857] flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
                             <span className="text-lg">🐾</span>
                         </div>
                         <div className="flex flex-col">
                             <span className="font-extrabold text-[19px] tracking-tight text-[#0f172a]">
-                                PetCare<span className="text-[#059669] font-black">Hub</span>
+                                PetCare<span className="text-[#047857] font-black">Hub</span>
                             </span>
                             <span className="text-[9.5px] text-[#64748b] -mt-1 font-semibold tracking-[0.12em] uppercase">
                                 Premium Pet Store
@@ -73,7 +64,7 @@ export default function Navbar() {
                             </span>
                             <Link
                                 href="/register"
-                                className="font-semibold text-[#047857] bg-white hover:bg-[#ecfdf5] border border-[#059669]/40 px-3.5 sm:px-4 py-1.5 rounded-lg transition-all shadow-2xs"
+                                className="font-semibold text-white bg-[#047857] hover:bg-[#065f46] active:bg-[#064e3b] px-3.5 sm:px-4 py-1.5 rounded-lg transition-all shadow-xs"
                             >
                                 Get Started
                             </Link>
@@ -87,27 +78,27 @@ export default function Navbar() {
                             </span>
                             <Link
                                 href="/login"
-                                className="font-medium text-[#1e293b] bg-white hover:bg-[#f8fafc] border border-[#e2e8f0] px-4 py-1.5 rounded-lg transition-all shadow-2xs"
+                                className="font-semibold text-white bg-[#047857] hover:bg-[#065f46] active:bg-[#064e3b] px-4 py-1.5 rounded-lg transition-all shadow-xs"
                             >
                                 Log In
                             </Link>
                         </div>
                     )}
 
-                    {/* Standard Public Navigation */}
+                    {/* Standard Navigation for All Other App Pages */}
                     {!isAuthPage && (
                         <>
-                            <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-gray-700">
+                            <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-700">
                                 <Link
                                     href="/"
-                                    className={`hover:text-emerald-600 transition-colors ${pathname === '/' ? 'text-emerald-600 font-bold' : ''
+                                    className={`hover:text-[#047857] transition-colors ${pathname === '/' ? 'text-[#047857] font-bold' : ''
                                         }`}
                                 >
                                     Home
                                 </Link>
                                 <Link
                                     href="/products"
-                                    className={`hover:text-emerald-600 transition-colors ${pathname?.startsWith('/products') ? 'text-emerald-600 font-bold' : ''
+                                    className={`hover:text-[#047857] transition-colors ${pathname?.startsWith('/products') ? 'text-[#047857] font-bold' : ''
                                         }`}
                                 >
                                     Shop Catalog
@@ -115,7 +106,7 @@ export default function Navbar() {
 
                                 <Link
                                     href="/about"
-                                    className={`hover:text-emerald-600 transition-colors ${pathname?.startsWith('/about') ? 'text-emerald-600 font-bold' : ''
+                                    className={`hover:text-[#047857] transition-colors ${pathname?.startsWith('/about') ? 'text-[#047857] font-bold' : ''
                                         }`}
                                 >
                                     About Us
@@ -123,41 +114,12 @@ export default function Navbar() {
 
                                 <Link
                                     href="/contact"
-                                    className={`hover:text-emerald-600 transition-colors ${pathname?.startsWith('/contact') ? 'text-emerald-600 font-bold' : ''
+                                    className={`hover:text-[#047857] transition-colors ${pathname?.startsWith('/contact') ? 'text-[#047857] font-bold' : ''
                                         }`}
                                 >
                                     Contact Us
                                 </Link>
 
-                                {user?.role === 'customer' && (
-                                    <Link
-                                        href="/dashboard"
-                                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-800 hover:bg-slate-200 transition-colors border border-slate-300/60"
-                                    >
-                                        <LayoutDashboard className="w-3.5 h-3.5 text-slate-700" />
-                                        <span>Customer Dashboard</span>
-                                    </Link>
-                                )}
-
-                                {user?.role === 'supplier' && (
-                                    <Link
-                                        href="/supplier"
-                                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-800 hover:bg-slate-200 transition-colors border border-slate-300/60"
-                                    >
-                                        <Store className="w-3.5 h-3.5 text-slate-700" />
-                                        <span>Supplier Dashboard</span>
-                                    </Link>
-                                )}
-
-                                {user?.role === 'admin' && (
-                                    <Link
-                                        href="/admin"
-                                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-800 hover:bg-slate-200 transition-colors border border-slate-300/60"
-                                    >
-                                        <Shield className="w-3.5 h-3.5 text-slate-700" />
-                                        <span>Admin Dashboard</span>
-                                    </Link>
-                                )}
                             </nav>
 
                             <div className="flex items-center gap-3">
@@ -165,18 +127,48 @@ export default function Navbar() {
                                 <button
                                     type="button"
                                     onClick={openCart}
-                                    className="relative p-2 rounded-xl text-slate-700 hover:text-emerald-700 hover:bg-emerald-50 transition-all border border-transparent hover:border-emerald-100 flex items-center justify-center group"
+                                    className="relative p-2 rounded-xl text-slate-700 hover:text-[#047857] hover:bg-emerald-50 transition-all border border-transparent hover:border-emerald-100 flex items-center justify-center group"
                                     aria-label={`Open cart with ${cartCount} items`}
                                 >
                                     <ShoppingCart className="w-5 h-5 transition-transform group-hover:scale-105" />
                                     {cartCount > 0 && (
-                                        <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 bg-emerald-600 text-white text-[11px] font-black rounded-full flex items-center justify-center shadow-xs animate-in zoom-in-75 ring-2 ring-white">
+                                        <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 bg-[#047857] text-white text-[11px] font-black rounded-full flex items-center justify-center shadow-xs animate-in zoom-in-75 ring-2 ring-white">
                                             {cartCount > 99 ? '99+' : cartCount}
                                         </span>
                                     )}
                                 </button>
 
-                                <NavbarUserMenu user={user} onSignOut={handleSignOut} />
+                                {/* Consistent Standout Darker Action Button */}
+                                {user ? (
+                                    <div className="flex items-center gap-2">
+                                        <Link
+                                            href={
+                                                user.role === 'admin'
+                                                    ? '/admin'
+                                                    : user.role === 'supplier'
+                                                    ? '/supplier'
+                                                    : '/dashboard'
+                                            }
+                                            className="inline-flex items-center gap-1.5 font-semibold text-white bg-[#047857] hover:bg-[#065f46] active:bg-[#064e3b] px-3.5 py-1.5 rounded-xl text-xs sm:text-sm transition-all shadow-xs"
+                                        >
+                                            <span>Dashboard</span>
+                                        </Link>
+                                        <button
+                                            onClick={handleSignOut}
+                                            className="text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 px-2.5 py-1.5 rounded-lg transition-colors border border-slate-200 cursor-pointer"
+                                            title="Sign Out"
+                                        >
+                                            Sign Out
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <Link
+                                        href="/login"
+                                        className="inline-flex items-center justify-center font-semibold text-white bg-[#047857] hover:bg-[#065f46] active:bg-[#064e3b] px-4 py-2 rounded-xl text-sm transition-all shadow-xs cursor-pointer"
+                                    >
+                                        Log In
+                                    </Link>
+                                )}
 
                                 <button
                                     onClick={() => setIsMenuOpen(!isMenuOpen)}

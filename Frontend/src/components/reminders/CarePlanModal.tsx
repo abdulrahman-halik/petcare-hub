@@ -48,14 +48,14 @@ export default function CarePlanModal({
             <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-gray-100 animate-in zoom-in-95 duration-200 relative space-y-5">
                 <div className="flex items-center justify-between pb-3 border-b border-gray-100">
                     <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center">
-                            <Sparkles className="w-4 h-4 text-amber-600" />
+                        <div className="w-8 h-8 rounded-xl bg-emerald-50 text-[#047857] flex items-center justify-center">
+                            <Sparkles className="w-4 h-4 text-[#047857]" />
                         </div>
                         <h3 className="text-lg font-extrabold text-gray-900">
                             Automated Vet Health Plan
                         </h3>
                     </div>
-                    <button onClick={onClose} className="p-1 rounded-lg text-gray-400">
+                    <button onClick={onClose} className="p-1 rounded-lg text-gray-400 hover:text-gray-600">
                         <X className="w-5 h-5" />
                     </button>
                 </div>
@@ -91,14 +91,14 @@ export default function CarePlanModal({
                         <div className="pt-2 flex gap-3">
                             <button
                                 onClick={onClose}
-                                className="flex-1 py-3 rounded-xl border border-gray-200 font-bold text-gray-700 text-xs"
+                                className="flex-1 py-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 font-semibold text-slate-700 text-xs transition-colors cursor-pointer"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleGenerateCarePlan}
                                 disabled={submitting}
-                                className="flex-1 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-gray-900 font-black text-xs shadow-md"
+                                className="flex-1 py-3 rounded-xl bg-[#047857] hover:bg-[#065f46] text-white font-bold text-xs shadow-sm transition-all cursor-pointer"
                             >
                                 {submitting ? 'Generating...' : '⚡ Generate Schedule'}
                             </button>

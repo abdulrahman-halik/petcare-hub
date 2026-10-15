@@ -135,16 +135,15 @@ export default function CustomerSupportPage() {
     return (
         <div className="space-y-8">
             {/* Top Header Card */}
-            <div className="bg-linear-to-r from-emerald-800 via-teal-800 to-slate-900 rounded-3xl p-6 sm:p-8 text-white relative overflow-hidden shadow-sm">
-                <div className="absolute -right-16 -top-16 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="bg-emerald-50 border border-emerald-100 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-sm">
                 <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div>
-                        <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-emerald-200 text-xs font-semibold mb-3">
-                            <Headphones className="w-3.5 h-3.5 text-emerald-300" />
+                        <div className="inline-flex items-center gap-2 bg-emerald-100 px-3 py-1 rounded-full text-[#047857] text-xs font-semibold mb-3 border border-emerald-200">
+                            <Headphones className="w-3.5 h-3.5 text-[#047857]" />
                             <span>Dedicated Pet Parent Assistance</span>
                         </div>
-                        <h1 className="text-2xl sm:text-3xl font-black">Help & Support Desk</h1>
-                        <p className="mt-1 text-emerald-100/80 text-sm max-w-xl leading-relaxed">
+                        <h1 className="text-2xl sm:text-3xl font-black text-slate-900">Help & Support Desk</h1>
+                        <p className="mt-1 text-slate-600 text-sm max-w-xl leading-relaxed">
                             Track ongoing inquiries, consult certified veterinarians, or request expedited fulfillment updates.
                         </p>
                     </div>
@@ -153,7 +152,7 @@ export default function CustomerSupportPage() {
                         <button
                             type="button"
                             onClick={() => setIsCreateModalOpen(true)}
-                            className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl transition-all shadow-md shadow-emerald-500/20 flex items-center gap-2 cursor-pointer"
+                            className="bg-[#047857] hover:bg-[#065f46] text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl transition-all shadow-sm flex items-center gap-2 cursor-pointer"
                         >
                             <Plus className="w-4 h-4" />
                             <span>Create Support Ticket</span>
@@ -161,7 +160,7 @@ export default function CustomerSupportPage() {
                         <button
                             type="button"
                             onClick={fetchMyTickets}
-                            className="bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition-colors flex items-center gap-2"
+                            className="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition-colors flex items-center gap-2 cursor-pointer"
                         >
                             <RefreshCw className="w-4 h-4" />
                             <span>Refresh</span>
@@ -234,7 +233,7 @@ export default function CustomerSupportPage() {
                         <button
                             type="button"
                             onClick={() => setIsCreateModalOpen(true)}
-                            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl transition-all inline-flex items-center gap-2 cursor-pointer shadow-xs"
+                            className="bg-[#047857] hover:bg-[#065f46] text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl transition-all inline-flex items-center gap-2 cursor-pointer shadow-xs"
                         >
                             <Plus className="w-4 h-4" />
                             <span>Create Your First Ticket</span>
@@ -403,7 +402,7 @@ export default function CustomerSupportPage() {
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-bold text-xs px-5 py-2 rounded-xl transition-all shadow-xs cursor-pointer"
+                                    className="bg-[#047857] hover:bg-[#065f46] disabled:bg-slate-300 text-white font-bold text-xs px-5 py-2 rounded-xl transition-all shadow-xs cursor-pointer"
                                 >
                                     {isSubmitting ? 'Creating...' : 'Submit Ticket'}
                                 </button>
@@ -484,7 +483,7 @@ export default function CustomerSupportPage() {
                                 <button
                                     type="submit"
                                     disabled={isReplying || !replyText.trim()}
-                                    className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
+                                    className="bg-[#047857] hover:bg-[#065f46] disabled:bg-slate-300 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
                                 >
                                     {isReplying ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
                                     <span>Send</span>

@@ -50,25 +50,21 @@ export default function ContactPage() {
     return (
         <div className="flex flex-col min-h-screen bg-slate-50/60 text-slate-900">
             {/* Header Banner */}
-            <section className="relative overflow-hidden bg-linear-to-br from-emerald-900 via-teal-900 to-slate-950 text-white py-14 sm:py-20">
-                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] [bg-size:16px_16px] pointer-events-none" />
-                <div className="absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute top-1/2 -right-24 w-96 h-96 bg-teal-400/15 rounded-full blur-3xl pointer-events-none" />
-
+            <section className="relative overflow-hidden bg-emerald-50 text-slate-900 py-14 sm:py-20 border-b border-emerald-100/80">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-                    <div className="inline-flex items-center gap-2 bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full backdrop-blur-md mb-6">
-                        <Sparkles className="w-4 h-4 text-emerald-400" />
+                    <div className="inline-flex items-center gap-2 bg-white border border-emerald-200 text-[#047857] text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full shadow-2xs mb-6">
+                        <Sparkles className="w-4 h-4 text-[#047857]" />
                         <span>We’re Here to Help You & Your Pets</span>
                     </div>
 
-                    <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-[1.15] max-w-3xl mx-auto">
+                    <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-[1.15] max-w-3xl mx-auto text-slate-900">
                         Get In Touch With <br />
-                        <span className="bg-linear-to-r from-emerald-300 via-teal-200 to-cyan-300 bg-clip-text text-transparent">
+                        <span className="text-[#047857]">
                             The PetCare Hub Team
                         </span>
                     </h1>
 
-                    <p className="mt-4 text-base sm:text-lg text-emerald-100/80 max-w-xl mx-auto leading-relaxed">
+                    <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-xl mx-auto leading-relaxed font-normal">
                         Have questions about our pet products, orders, or wellness services? Send us a message and our support specialists will respond promptly.
                     </p>
                 </div>
@@ -200,7 +196,7 @@ export default function ContactPage() {
                                                     placeholder="Abdul Rahman"
                                                     value={formData.name}
                                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
+                                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#047857]/15 focus:border-[#047857] transition-all"
                                                 />
                                             </div>
 
@@ -215,7 +211,7 @@ export default function ContactPage() {
                                                     placeholder="abdul@example.com"
                                                     value={formData.email}
                                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
+                                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#047857]/15 focus:border-[#047857] transition-all"
                                                 />
                                             </div>
                                         </div>
@@ -231,7 +227,7 @@ export default function ContactPage() {
                                                     placeholder="077 738 2273"
                                                     value={formData.phone}
                                                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
+                                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#047857]/15 focus:border-[#047857] transition-all"
                                                 />
                                             </div>
 
@@ -246,7 +242,7 @@ export default function ContactPage() {
                                                     placeholder="Product question, order support, etc."
                                                     value={formData.subject}
                                                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
+                                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#047857]/15 focus:border-[#047857] transition-all"
                                                 />
                                             </div>
                                         </div>
@@ -262,14 +258,14 @@ export default function ContactPage() {
                                                 placeholder="Tell us what you need help with..."
                                                 value={formData.message}
                                                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all resize-y"
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#047857]/15 focus:border-[#047857] transition-all resize-y"
                                             />
                                         </div>
 
                                         <button
                                             type="submit"
                                             disabled={isSubmitting}
-                                            className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-bold text-sm py-3 px-6 rounded-xl transition-all shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer"
+                                            className="w-full bg-[#047857] hover:bg-[#065f46] active:bg-[#064e3b] disabled:opacity-60 text-white font-semibold text-sm py-3 px-6 rounded-xl transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
                                         >
                                             {isSubmitting ? (
                                                 <>

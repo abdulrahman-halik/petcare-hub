@@ -98,9 +98,7 @@ export default function SmartRecommendations({
     };
 
     return (
-        <section className="w-full bg-linear-to-b from-white via-emerald-50/20 to-white py-10 px-4 sm:px-6 lg:px-8 rounded-3xl border border-emerald-100/60 shadow-xs relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-300/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 w-80 h-80 bg-teal-300/10 rounded-full blur-3xl pointer-events-none"></div>
+        <section className="w-full bg-white py-10 px-4 sm:px-6 lg:px-8 rounded-3xl border border-emerald-100 shadow-xs relative overflow-hidden">
 
             <div className="relative z-10 max-w-7xl mx-auto space-y-6">
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -191,7 +189,7 @@ export default function SmartRecommendations({
                         <p className="text-xs text-gray-500 max-w-md mx-auto">
                             Register your pets with age, breed, and health conditions to receive AI-tailored nutrition and wellness recommendations.
                         </p>
-                        <Link href="/pets" className="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all">
+                        <Link href="/pets" className="inline-flex items-center gap-1.5 bg-[#047857] hover:bg-[#065f46] text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-xs">
                             Manage Pet Profiles
                         </Link>
                     </div>
