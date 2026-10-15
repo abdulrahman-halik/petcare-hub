@@ -73,9 +73,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     const logout = async () => {
-        await axios.post('/auth/logout');
-        setUser(null);
-        router.push('/login');
+        try {
+            await axios.post('/auth/logout');
+        } catch {
+            // ignore logout error
+        }
+        if (typeof window !== 'undefined') {
+            window.location.replace('/');
+        } else {
+            setUser(null);
+            router.push('/');
+        }
     };
 
     return (

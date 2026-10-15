@@ -30,7 +30,7 @@ export default function NavbarMobileDrawer({
                 onClick={onClose}
                 className="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-emerald-50 hover:text-[#047857]"
             >
-                Shop Catalog
+                Listings
             </Link>
             <Link
                 href="/about"
@@ -55,8 +55,8 @@ export default function NavbarMobileDrawer({
                             user.role === 'admin'
                                 ? '/admin'
                                 : user.role === 'supplier'
-                                ? '/supplier'
-                                : '/dashboard'
+                                    ? '/supplier'
+                                    : '/dashboard'
                         }
                         onClick={onClose}
                         className="block text-center w-full font-semibold text-white bg-[#047857] hover:bg-[#065f46] py-2.5 rounded-xl text-sm transition-all shadow-xs"

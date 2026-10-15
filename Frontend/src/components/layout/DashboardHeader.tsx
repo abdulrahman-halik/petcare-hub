@@ -33,8 +33,8 @@ export default function DashboardHeader({
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
     const handleSignOut = async () => {
+        setIsProfileDropdownOpen(false);
         await logout();
-        router.push('/login');
     };
 
     const currentNavLabel =

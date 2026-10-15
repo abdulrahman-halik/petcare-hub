@@ -25,9 +25,8 @@ export default function Navbar() {
     const isAuthPage = isLoginPage || isRegisterPage;
 
     const handleSignOut = async () => {
-        await logout();
         setIsMenuOpen(false);
-        router.push('/');
+        await logout();
     };
 
     return (
@@ -101,7 +100,7 @@ export default function Navbar() {
                                     className={`hover:text-[#047857] transition-colors ${pathname?.startsWith('/products') ? 'text-[#047857] font-bold' : ''
                                         }`}
                                 >
-                                    Shop Catalog
+                                    Listings
                                 </Link>
 
                                 <Link
@@ -146,8 +145,8 @@ export default function Navbar() {
                                                 user.role === 'admin'
                                                     ? '/admin'
                                                     : user.role === 'supplier'
-                                                    ? '/supplier'
-                                                    : '/dashboard'
+                                                        ? '/supplier'
+                                                        : '/dashboard'
                                             }
                                             className="inline-flex items-center gap-1.5 font-semibold text-white bg-[#047857] hover:bg-[#065f46] active:bg-[#064e3b] px-3.5 py-1.5 rounded-xl text-xs sm:text-sm transition-all shadow-xs"
                                         >
