@@ -266,6 +266,7 @@ exports.createPaymentIntent = async (req, res) => {
             data: {
                 intentId,
                 amount: financials.total,
+                total: financials.total,
                 subtotal: financials.subtotal,
                 tax: financials.tax,
                 shippingFee: financials.shippingFee,

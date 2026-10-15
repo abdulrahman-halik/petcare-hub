@@ -18,10 +18,16 @@ interface CheckoutOrderSummaryProps {
         tax?: number;
         shippingFee?: number;
         total?: number;
+        amount?: number;
     } | null;
 }
 
 export default function CheckoutOrderSummary({ items, totals }: CheckoutOrderSummaryProps) {
+    const subtotal = totals?.subtotal ?? 0;
+    const tax = totals?.tax ?? 0;
+    const shippingFee = totals?.shippingFee ?? 0;
+    const total = totals?.total ?? totals?.amount ?? 0;
+
     return (
         <div className="bg-white rounded-2xl shadow-xs border border-gray-100 p-5 h-fit sticky top-24">
             <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
@@ -61,25 +67,25 @@ export default function CheckoutOrderSummary({ items, totals }: CheckoutOrderSum
             <div className="border-t border-gray-100 pt-4 space-y-2.5 text-sm">
                 <div className="flex justify-between text-gray-600">
                     <span>Subtotal</span>
-                    <span>${totals?.subtotal?.toFixed(2) || '0.00'}</span>
+                    <span>${subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                     <span>Tax (10%)</span>
-                    <span>${totals?.tax?.toFixed(2) || '0.00'}</span>
+                    <span>${tax.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                     <span>Shipping</span>
                     <span>
-                        {totals?.shippingFee === 0 ? (
+                        {shippingFee === 0 ? (
                             <span className="text-[#047857] font-medium">FREE</span>
                         ) : (
-                            `$${totals?.shippingFee?.toFixed(2) || '0.00'}`
+                            `$${shippingFee.toFixed(2)}`
                         )}
                     </span>
                 </div>
                 <div className="flex justify-between font-bold text-gray-900 border-t border-gray-100 pt-3 text-base">
                     <span>Total</span>
-                    <span className="text-[#047857]">${totals?.total?.toFixed(2) || '0.00'}</span>
+                    <span className="text-[#047857]">${total.toFixed(2)}</span>
                 </div>
             </div>
 

@@ -77,7 +77,7 @@ export default function CheckoutPaymentStep({
                     <div className="flex justify-between text-gray-500 text-xs">
                         <span>Total to Authorize</span>
                         <span className="font-bold text-gray-900 text-sm">
-                            ${totalAmount.toFixed(2)} USD
+                            ${(totalAmount || 0).toFixed(2)} USD
                         </span>
                     </div>
                 </div>

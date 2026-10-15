@@ -22,6 +22,16 @@ const emptyAddress = (): Address => ({
     phone: ''
 });
 
+interface ServerTotals {
+    intentId?: string;
+    amount?: number;
+    total?: number;
+    subtotal?: number;
+    tax?: number;
+    shippingFee?: number;
+    currency?: string;
+}
+
 function CheckoutContent() {
     const { user } = useAuth();
     const { cart, refreshCart } = useCart();
@@ -32,7 +42,7 @@ function CheckoutContent() {
     const [shipping, setShipping] = useState<Address>(emptyAddress());
     const [billing, setBilling] = useState<Address>(emptyAddress());
     const [sameAsShipping, setSameAsShipping] = useState(true);
-    const [serverTotals, setServerTotals] = useState<any>(null);
+    const [serverTotals, setServerTotals] = useState<ServerTotals | null>(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [paypalClientId, setPaypalClientId] = useState<string>(
@@ -146,8 +156,9 @@ function CheckoutContent() {
             const { data } = await axios.post('/payments/intent');
             setServerTotals(data.data);
             setStep('payment');
-        } catch (err: any) {
-            setError(err.response?.data?.message || 'Could not prepare checkout totals. Please check your cart.');
+        } catch (err: unknown) {
+            const apiError = err as { response?: { data?: { message?: string } } };
+            setError(apiError.response?.data?.message || 'Could not prepare checkout totals. Please check your cart.');
         } finally {
             setLoading(false);
         }
@@ -162,7 +173,16 @@ function CheckoutContent() {
         router.push(`/orders/confirmation/${orderId}`);
     };
 
-    const totals = serverTotals || cart;
+    const totals = serverTotals
+        ? {
+            ...serverTotals,
+            total: Number(serverTotals.total ?? serverTotals.amount ?? cart?.total ?? 0),
+            amount: Number(serverTotals.amount ?? serverTotals.total ?? cart?.total ?? 0),
+            subtotal: Number(serverTotals.subtotal ?? cart?.subtotal ?? 0),
+            tax: Number(serverTotals.tax ?? cart?.tax ?? 0),
+            shippingFee: Number(serverTotals.shippingFee ?? cart?.shippingFee ?? 0)
+        }
+        : cart;
 
     return (
         <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -213,7 +233,7 @@ function CheckoutContent() {
                                 billing={billing}
                                 sameAsShipping={sameAsShipping}
                                 paypalClientId={paypalClientId}
-                                totalAmount={totals?.amount || totals?.total || 0}
+                                totalAmount={totals?.total ?? 0}
                                 error={error}
                                 onError={setError}
                                 onStartProcessing={() => {
