@@ -7,6 +7,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import DashboardShell from '@/components/layout/DashboardShell';
 import CartDrawer from '@/components/cart/CartDrawer';
+import CustomerSupportWidget from '@/components/common/CustomerSupportWidget';
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -19,7 +20,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         pathname?.startsWith('/dashboard') ||
         pathname?.startsWith('/pets') ||
         pathname?.startsWith('/orders') ||
-        pathname?.startsWith('/wishlist');
+        pathname?.startsWith('/wishlist') ||
+        pathname?.startsWith('/support');
 
     // Shared authenticated routes (profile, notifications)
     const isSharedPortal =
@@ -39,6 +41,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <>
                 <DashboardShell role="customer">{children}</DashboardShell>
                 <CartDrawer />
+                <CustomerSupportWidget />
             </>
         );
     }
@@ -54,6 +57,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <>
                 <DashboardShell role={effectiveRole}>{children}</DashboardShell>
                 <CartDrawer />
+                <CustomerSupportWidget />
             </>
         );
     }
@@ -65,6 +69,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <main className="flex-1 w-full">{children}</main>
             <Footer />
             <CartDrawer />
+            <CustomerSupportWidget />
         </div>
     );
 }

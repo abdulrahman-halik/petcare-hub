@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { LayoutDashboard, Package, SlidersHorizontal, PawPrint } from 'lucide-react';
+import { LayoutDashboard, Package, SlidersHorizontal, PawPrint, Headphones } from 'lucide-react';
 import DashboardSidebar, { NavItem } from './DashboardSidebar';
 import DashboardHeader from './DashboardHeader';
 
@@ -18,7 +18,8 @@ const ROLE_CONFIG = {
         navItems: [
             { label: 'Overview', href: '/admin', icon: LayoutDashboard, exact: true },
             { label: 'Product Moderation', href: '/admin/products', icon: Package },
-            { label: 'Categories', href: '/admin/categories', icon: SlidersHorizontal }
+            { label: 'Categories', href: '/admin/categories', icon: SlidersHorizontal },
+            { label: 'Support Desk', href: '/admin/support', icon: Headphones }
         ] as NavItem[]
     },
     supplier: {
@@ -37,7 +38,8 @@ const ROLE_CONFIG = {
         navItems: [
             { label: 'Overview', href: '/dashboard', icon: LayoutDashboard, exact: true },
             { label: 'My Pets & Health', href: '/pets', icon: PawPrint },
-            { label: 'My Orders', href: '/orders', icon: Package }
+            { label: 'My Orders', href: '/orders', icon: Package },
+            { label: 'Help & Support', href: '/support', icon: Headphones }
         ] as NavItem[]
     }
 };
