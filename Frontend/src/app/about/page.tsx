@@ -155,11 +155,10 @@ export default function AboutPage() {
                                     key={item.id}
                                     type="button"
                                     onClick={() => setActiveTab(item.id)}
-                                    className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-2 ${
-                                        isActive
-                                            ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/25 scale-[1.02]'
-                                            : 'bg-slate-100 hover:bg-slate-200/80 text-slate-700'
-                                    }`}
+                                    className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-2 ${isActive
+                                        ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/25 scale-[1.02]'
+                                        : 'bg-slate-100 hover:bg-slate-200/80 text-slate-700'
+                                        }`}
                                 >
                                     <span>{item.label}</span>
                                     {isActive && (

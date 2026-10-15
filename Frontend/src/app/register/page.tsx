@@ -26,8 +26,15 @@ export default function RegisterPage() {
         setLoading(true);
         try {
             await register({ name, email, password, role });
-        } catch (err: any) {
-            setError(err.response?.data?.message || 'Registration failed. Please check your details.');
+        } catch (err: unknown) {
+            let message = 'Registration failed. Please check your details.';
+            if (err && typeof err === 'object' && 'response' in err) {
+                const response = (err as { response?: { data?: { message?: string } } }).response;
+                if (response?.data?.message) {
+                    message = response.data.message;
+                }
+            }
+            setError(message);
         } finally {
             setLoading(false);
         }

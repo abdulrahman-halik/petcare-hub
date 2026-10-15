@@ -1,12 +1,18 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { Heart, Mail, Lock, Eye, EyeOff, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
+import { getRoleDashboardPath } from '@/lib/roleNavigation';
+import { Heart, Mail, Lock, Eye, EyeOff, ArrowRight, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
 
-export default function LoginPage() {
-    const { login } = useAuth();
+function LoginForm() {
+    const { user, login, loading: authLoading } = useAuth();
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const isRegistered = searchParams?.get('registered') === 'true';
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -14,14 +20,28 @@ export default function LoginPage() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
+    // Auto-redirect already authenticated users to their respective dashboard
+    useEffect(() => {
+        if (!authLoading && user) {
+            router.replace(getRoleDashboardPath(user.role));
+        }
+    }, [user, authLoading, router]);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
         setLoading(true);
         try {
             await login({ email, password });
-        } catch (err: any) {
-            setError(err.response?.data?.message || 'Invalid email or password. Please try again.');
+        } catch (err: unknown) {
+            let message = 'Invalid email or password. Please try again.';
+            if (err && typeof err === 'object' && 'response' in err) {
+                const response = (err as { response?: { data?: { message?: string } } }).response;
+                if (response?.data?.message) {
+                    message = response.data.message;
+                }
+            }
+            setError(message);
         } finally {
             setLoading(false);
         }
@@ -46,6 +66,14 @@ export default function LoginPage() {
                 <p className="mt-2 text-center text-[13px] text-[#64748b] leading-relaxed max-w-[310px] mx-auto">
                     Welcome back! Access your pet&apos;s wellness plans, orders, and personalized nutrition.
                 </p>
+
+                {/* Success Banner after registration */}
+                {isRegistered && !error && (
+                    <div className="mt-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-xs flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
+                        <span>Registration successful! Please sign in with your credentials.</span>
+                    </div>
+                )}
 
                 {/* Error Banner */}
                 {error && (
@@ -155,5 +183,13 @@ export default function LoginPage() {
                 </form>
             </div>
         </div>
+    );
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={<div className="min-h-[calc(100vh-140px)] w-full flex items-center justify-center text-slate-500 text-sm">Loading sign-in...</div>}>
+            <LoginForm />
+        </Suspense>
     );
 }
