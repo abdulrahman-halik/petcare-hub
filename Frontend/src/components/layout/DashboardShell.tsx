@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { LayoutDashboard, Package, SlidersHorizontal, PawPrint, Headphones } from 'lucide-react';
+import { LayoutDashboard, Package, SlidersHorizontal, PawPrint, Headphones, Store, Users } from 'lucide-react';
 import DashboardSidebar, { NavItem } from './DashboardSidebar';
 import DashboardHeader from './DashboardHeader';
 
@@ -17,6 +17,8 @@ const ROLE_CONFIG = {
         badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
         navItems: [
             { label: 'Overview', href: '/admin', icon: LayoutDashboard, exact: true },
+            { label: 'Supplier Management', href: '/admin/suppliers', icon: Store },
+            { label: 'Customer Management', href: '/admin/customers', icon: Users },
             { label: 'Product Moderation', href: '/admin/products', icon: Package },
             { label: 'Categories', href: '/admin/categories', icon: SlidersHorizontal },
             { label: 'Support Desk', href: '/admin/support', icon: Headphones }

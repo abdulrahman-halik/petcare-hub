@@ -24,6 +24,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const supportRoutes = require('./routes/supportRoutes');
+const adminAccountRoutes = require('./routes/adminAccountRoutes');
 
 const app = express();
 
@@ -56,6 +57,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/support', supportRoutes);
+app.use('/api/admin/accounts', adminAccountRoutes);
 
 // Health Check Endpoint
 app.get('/api/health', (req, res) => {

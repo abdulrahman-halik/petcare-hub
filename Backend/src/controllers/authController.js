@@ -22,8 +22,21 @@ const setTokenCookie = (res, token) => {
 exports.registerUser = async (req, res) => {
     try {
         const { name, email, password, role } = req.body;
+        const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+        const requestedRole = role || 'customer';
 
-        const userExists = await User.findOne({ email });
+        if (!name || typeof name !== 'string' || !normalizedEmail || !password || typeof password !== 'string') {
+            return res.status(400).json({ status: 'fail', message: 'Name, email, and password are required' });
+        }
+        if (password.length < 8) {
+            return res.status(400).json({ status: 'fail', message: 'Password must be at least 8 characters long' });
+        }
+        // Public registration must never be able to mint an administrator account.
+        if (!['customer', 'supplier'].includes(requestedRole)) {
+            return res.status(403).json({ status: 'fail', message: 'This account role cannot be selected during registration' });
+        }
+
+        const userExists = await User.findOne({ email: normalizedEmail });
 
         if (userExists) {
             return res.status(400).json({ status: 'fail', message: 'User already exists' });
@@ -31,9 +44,9 @@ exports.registerUser = async (req, res) => {
 
         const user = await User.create({
             name,
-            email,
+            email: normalizedEmail,
             password,
-            role: role || 'customer',
+            role: requestedRole,
         });
 
         if (user) {
@@ -56,6 +69,12 @@ exports.registerUser = async (req, res) => {
             res.status(400).json({ status: 'fail', message: 'Invalid user data' });
         }
     } catch (error) {
+        if (error?.code === 11000) {
+            return res.status(409).json({ status: 'fail', message: 'User already exists' });
+        }
+        if (error?.name === 'ValidationError') {
+            return res.status(400).json({ status: 'fail', message: error.message });
+        }
         res.status(500).json({ status: 'error', message: error.message });
     }
 };
@@ -66,8 +85,16 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
+        const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email: normalizedEmail });
+
+        if (user?.accountStatus === 'deactivated') {
+            return res.status(403).json({
+                status: 'fail',
+                message: 'This account has been deactivated. Please contact an administrator.'
+            });
+        }
 
         if (user && (await user.matchPassword(password))) {
             const token = generateToken(user._id);

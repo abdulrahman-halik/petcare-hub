@@ -16,6 +16,7 @@ exports.getUserProfile = async (req, res) => {
                         name: user.name,
                         email: user.email,
                         role: user.role,
+                        accountStatus: user.accountStatus === 'deactivated' ? 'deactivated' : 'active',
                     }
                 }
             });
@@ -52,6 +53,7 @@ exports.updateUserProfile = async (req, res) => {
                         name: updatedUser.name,
                         email: updatedUser.email,
                         role: updatedUser.role,
+                        accountStatus: updatedUser.accountStatus === 'deactivated' ? 'deactivated' : 'active',
                     }
                 }
             });
