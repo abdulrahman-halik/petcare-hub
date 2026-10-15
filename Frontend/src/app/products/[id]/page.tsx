@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ChevronRight, Sparkles, Store, MessageSquare } from 'lucide-react';
+import { ChevronRight, Sparkles, Store } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';

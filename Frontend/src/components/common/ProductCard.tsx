@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Star, ShieldCheck, Eye, Sparkles, Heart, ShoppingCart } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
 import { useCart } from '@/context/CartContext';

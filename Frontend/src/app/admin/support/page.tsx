@@ -12,9 +12,7 @@ import {
     Send,
     RefreshCw,
     X,
-    MessageSquare,
-    SlidersHorizontal,
-    CornerDownRight
+    MessageSquare
 } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
 

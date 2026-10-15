@@ -47,7 +47,7 @@ export default function SmartRecommendations({
                 const userPets = data.data.pets || [];
                 setPets(userPets);
                 setHasPets(userPets.length > 0);
-            } catch (err) {
+            } catch {
                 setPets([]);
                 setHasPets(false);
             }

@@ -55,12 +55,17 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }, [user]);
 
     useEffect(() => {
+        let isCancelled = false;
+
         if (!user) {
-            setCart(null);
-            return;
+            Promise.resolve().then(() => {
+                if (!isCancelled) setCart(null);
+            });
+            return () => {
+                isCancelled = true;
+            };
         }
 
-        let isCancelled = false;
         setLoading(true);
         axios.get('/cart')
             .then(res => {

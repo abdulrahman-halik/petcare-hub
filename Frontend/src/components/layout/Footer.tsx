@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ShieldCheck, Truck, Clock, Heart, Award, Sparkles } from 'lucide-react';
+import { ShieldCheck, Truck, Clock, Heart, Sparkles } from 'lucide-react';
 
 export default function Footer() {
     return (

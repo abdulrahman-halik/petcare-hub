@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import {
     Heart,
@@ -29,7 +29,6 @@ export default function DashboardHeader({
 }: DashboardHeaderProps) {
     const { user, logout } = useAuth();
     const pathname = usePathname();
-    const router = useRouter();
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
     const handleSignOut = async () => {

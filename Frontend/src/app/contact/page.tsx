@@ -14,6 +14,8 @@ import {
     MessageSquare
 } from 'lucide-react';
 
+import axios from '@/lib/axiosConfig';
+
 export default function ContactPage() {
     const [formData, setFormData] = useState({
         name: '',
@@ -24,16 +26,34 @@ export default function ContactPage() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [ticketNumber, setTicketNumber] = useState<string | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
+        setErrorMessage(null);
 
-        // Simulate seamless client dispatch
-        setTimeout(() => {
-            setIsSubmitting(false);
+        try {
+            const { data } = await axios.post('/support/tickets', {
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone || undefined,
+                subject: formData.subject,
+                message: formData.message,
+                category: 'general'
+            });
+
+            if (data?.data?.ticket?.ticketNumber) {
+                setTicketNumber(data.data.ticket.ticketNumber);
+            }
             setIsSubmitted(true);
-        }, 600);
+        } catch (err: any) {
+            console.error('Error submitting contact inquiry:', err);
+            setErrorMessage(err.response?.data?.message || 'Failed to submit your message. Please try again or email us directly.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleResetForm = () => {
@@ -44,6 +64,8 @@ export default function ContactPage() {
             subject: '',
             message: ''
         });
+        setTicketNumber(null);
+        setErrorMessage(null);
         setIsSubmitted(false);
     };
 
@@ -163,13 +185,26 @@ export default function ContactPage() {
                                         <h3 className="text-2xl font-black text-slate-900">
                                             Message Sent Successfully! 🐾
                                         </h3>
+                                        {ticketNumber && (
+                                            <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-full text-xs font-semibold text-emerald-800">
+                                                <span>Ticket Reference:</span>
+                                                <span className="font-mono font-bold text-emerald-900">{ticketNumber}</span>
+                                            </div>
+                                        )}
                                         <p className="text-sm sm:text-base text-slate-600 max-w-md mx-auto leading-relaxed">
                                             Thank you, <span className="font-semibold text-slate-800">{formData.name || 'Friend'}</span>. We have received your inquiry and our team will get in touch with you at <span className="font-semibold text-slate-800">{formData.email}</span> soon.
                                         </p>
                                         <div className="pt-4 flex flex-wrap justify-center gap-3">
+                                            <button
+                                                type="button"
+                                                onClick={handleResetForm}
+                                                className="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors cursor-pointer"
+                                            >
+                                                Send Another Message
+                                            </button>
                                             <Link
                                                 href="/products"
-                                                className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
+                                                className="bg-[#047857] hover:bg-[#065f46] active:bg-[#064e3b] text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-xs"
                                             >
                                                 Explore Products
                                             </Link>
@@ -183,6 +218,12 @@ export default function ContactPage() {
                                                 Fill out the form below and we will get back to you as soon as possible.
                                             </p>
                                         </div>
+
+                                        {errorMessage && (
+                                            <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-800 font-medium">
+                                                {errorMessage}
+                                            </div>
+                                        )}
 
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div>

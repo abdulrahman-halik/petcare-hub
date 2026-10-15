@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
 import {
@@ -16,7 +16,6 @@ export default function Navbar() {
     const { user, logout } = useAuth();
     const { cartCount, openCart } = useCart();
     const pathname = usePathname();
-    const router = useRouter();
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -152,13 +151,13 @@ export default function Navbar() {
                                         >
                                             <span>Dashboard</span>
                                         </Link>
-                                        <button
+                                        {/* <button
                                             onClick={handleSignOut}
                                             className="text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 px-2.5 py-1.5 rounded-lg transition-colors border border-slate-200 cursor-pointer"
                                             title="Sign Out"
                                         >
                                             Sign Out
-                                        </button>
+                                        </button> */}
                                     </div>
                                 ) : (
                                     <Link

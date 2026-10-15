@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Search, Sparkles, Star } from 'lucide-react';
+import { Search, Sparkles } from 'lucide-react';
 
 interface HomeHeroSectionProps {
     searchKeyword: string;
@@ -68,19 +68,13 @@ export default function HomeHeroSection({
                 {/* Hero Graphic / Featured Showcase */}
                 <div className="lg:col-span-5 relative flex justify-center">
                     <div className="relative w-full max-w-md">
-                        <div className="aspect-4/3 rounded-3xl overflow-hidden shadow-xl border-4 border-white relative group">
+                        <div className="h-[480px] w-full rounded-3xl overflow-hidden shadow-xl border-4 border-white relative group">
                             <img
-                                src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=800&q=80"
-                                alt="Happy healthy dogs playing"
+                                src="/taking-care-pets-diabetes.jpg"
+                                alt="Pet care tips for managing diabetes in pets"
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                loading="lazy"
                             />
-                            <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl p-3 border border-slate-200/80 shadow-md">
-                                <div className="flex items-center gap-1 text-amber-500 text-xs font-bold mb-0.5">
-                                    <Star className="w-4 h-4 fill-amber-500" />
-                                    <span>4.9 / 5.0 Customer Satisfaction</span>
-                                </div>
-                                <p className="font-bold text-xs text-slate-800">Certified Safe & Non-Toxic Pet Products</p>
-                            </div>
                         </div>
 
                         {/* Floating trust badge */}

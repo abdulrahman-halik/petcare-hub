@@ -3,16 +3,13 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import {
-    MessageSquare,
     X,
     Send,
-    HelpCircle,
     CheckCircle2,
     Search,
     ChevronRight,
     Headphones,
     Sparkles,
-    ShieldAlert,
     Copy,
     Check,
     RefreshCw

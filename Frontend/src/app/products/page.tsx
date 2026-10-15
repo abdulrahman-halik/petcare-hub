@@ -87,6 +87,27 @@ function ProductsCatalogContent() {
         }
     }, [keyword, selectedCategory, selectedPetType, minPrice, maxPrice, inStockOnly, sortBy, currentPage]);
 
+    // Synchronize catalog states when URL search parameters change
+    useEffect(() => {
+        const urlKeyword = searchParams?.get('keyword') || '';
+        const urlCategory = searchParams?.get('category') || 'all';
+        const urlPetType = searchParams?.get('petType') || 'all';
+        const urlMinPrice = searchParams?.get('minPrice') || '';
+        const urlMaxPrice = searchParams?.get('maxPrice') || '';
+        const urlInStock = searchParams?.get('inStock') === 'true';
+        const urlSort = searchParams?.get('sort') || 'newest';
+        const urlPage = Number(searchParams?.get('page')) || 1;
+
+        setKeyword(urlKeyword);
+        setSelectedCategory(urlCategory);
+        setSelectedPetType(urlPetType);
+        setMinPrice(urlMinPrice);
+        setMaxPrice(urlMaxPrice);
+        setInStockOnly(urlInStock);
+        setSortBy(urlSort);
+        setCurrentPage(urlPage);
+    }, [searchParams]);
+
     useEffect(() => {
         fetchProducts();
     }, [fetchProducts]);
@@ -94,7 +115,14 @@ function ProductsCatalogContent() {
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setCurrentPage(1);
-        fetchProducts();
+        const params = new URLSearchParams(searchParams?.toString() || '');
+        if (keyword.trim()) {
+            params.set('keyword', keyword.trim());
+        } else {
+            params.delete('keyword');
+        }
+        params.set('page', '1');
+        router.push(`/products?${params.toString()}`);
     };
 
     const handleResetFilters = () => {
