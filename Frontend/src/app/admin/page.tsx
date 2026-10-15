@@ -10,13 +10,35 @@ import {
     SlidersHorizontal,
     AlertTriangle,
     CheckCircle2,
-    ArrowRight
+    ArrowRight,
+    Store,
+    Users,
+    UserRoundCheck,
+    UserRoundX
 } from 'lucide-react';
 import axios from '@/lib/axiosConfig';
 
 interface ProductItem {
     status?: string;
 }
+
+interface AccountSummary {
+    totalSuppliers: number;
+    activeSuppliers: number;
+    deactivatedSuppliers: number;
+    totalCustomers: number;
+    activeCustomers: number;
+    deactivatedCustomers: number;
+}
+
+const EMPTY_ACCOUNT_SUMMARY: AccountSummary = {
+    totalSuppliers: 0,
+    activeSuppliers: 0,
+    deactivatedSuppliers: 0,
+    totalCustomers: 0,
+    activeCustomers: 0,
+    deactivatedCustomers: 0
+};
 
 export default function AdminOverviewPage() {
     const { user, loading: authLoading } = useAuth();
@@ -29,6 +51,7 @@ export default function AdminOverviewPage() {
         totalCategories: 0
     });
     const [loading, setLoading] = useState(true);
+    const [accountSummary, setAccountSummary] = useState<AccountSummary>(EMPTY_ACCOUNT_SUMMARY);
 
     // Admin Auth Guard
     useEffect(() => {
@@ -45,9 +68,10 @@ export default function AdminOverviewPage() {
         const fetchAdminStats = async () => {
             try {
                 setLoading(true);
-                const [prodRes, catRes] = await Promise.all([
+                const [prodRes, catRes, accountRes] = await Promise.all([
                     axios.get('/products?limit=100'),
-                    axios.get('/categories')
+                    axios.get('/categories'),
+                    axios.get('/admin/accounts/summary')
                 ]);
 
                 const prods: ProductItem[] = prodRes.data?.data?.products || [];
@@ -62,6 +86,7 @@ export default function AdminOverviewPage() {
                     flaggedProducts: flaggedCount,
                     totalCategories: cats.length
                 });
+                setAccountSummary(accountRes.data?.data?.summary || EMPTY_ACCOUNT_SUMMARY);
             } catch (err) {
                 console.error('Failed to load admin stats:', err);
             } finally {
@@ -89,6 +114,21 @@ export default function AdminOverviewPage() {
                     Oversee marketplace listings, verify vendor products, and manage catalog taxonomy.
                 </p>
             </div>
+
+            <section className="space-y-4">
+                <div>
+                    <h2 className="text-lg font-extrabold text-gray-900">Account overview</h2>
+                    <p className="text-sm text-gray-500">Live supplier and customer counts, including lifecycle status.</p>
+                </div>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                    <AccountStatCard label="Total suppliers" value={accountSummary.totalSuppliers} loading={loading} icon={<Store className="w-5 h-5" />} tone="emerald" />
+                    <AccountStatCard label="Active suppliers" value={accountSummary.activeSuppliers} loading={loading} icon={<UserRoundCheck className="w-5 h-5" />} tone="teal" />
+                    <AccountStatCard label="Deactivated suppliers" value={accountSummary.deactivatedSuppliers} loading={loading} icon={<UserRoundX className="w-5 h-5" />} tone="rose" />
+                    <AccountStatCard label="Total customers" value={accountSummary.totalCustomers} loading={loading} icon={<Users className="w-5 h-5" />} tone="emerald" />
+                    <AccountStatCard label="Active customers" value={accountSummary.activeCustomers} loading={loading} icon={<UserRoundCheck className="w-5 h-5" />} tone="teal" />
+                    <AccountStatCard label="Deactivated customers" value={accountSummary.deactivatedCustomers} loading={loading} icon={<UserRoundX className="w-5 h-5" />} tone="rose" />
+                </div>
+            </section>
 
             {/* Stat Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -140,6 +180,38 @@ export default function AdminOverviewPage() {
             {/* Quick Management Navigation Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Link
+                    href="/admin/suppliers"
+                    className="group bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs hover:shadow-md hover:border-emerald-300 transition-all space-y-4"
+                >
+                    <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center group-hover:scale-105 transition-transform">
+                        <Store className="w-6 h-6" />
+                    </div>
+                    <div>
+                        <h3 className="text-lg font-bold text-gray-900 group-hover:text-emerald-700 transition-colors flex items-center justify-between">
+                            <span>Supplier Management</span>
+                            <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 group-hover:translate-x-1 transition-transform" />
+                        </h3>
+                        <p className="text-sm text-gray-500 mt-1">Register suppliers, review account details, and control account access.</p>
+                    </div>
+                </Link>
+
+                <Link
+                    href="/admin/customers"
+                    className="group bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs hover:shadow-md hover:border-teal-300 transition-all space-y-4"
+                >
+                    <div className="w-12 h-12 rounded-xl bg-teal-100 text-teal-800 flex items-center justify-center group-hover:scale-105 transition-transform">
+                        <Users className="w-6 h-6" />
+                    </div>
+                    <div>
+                        <h3 className="text-lg font-bold text-gray-900 group-hover:text-teal-700 transition-colors flex items-center justify-between">
+                            <span>Customer Management</span>
+                            <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-teal-600 group-hover:translate-x-1 transition-transform" />
+                        </h3>
+                        <p className="text-sm text-gray-500 mt-1">Maintain customer profiles, account statuses, and secure lifecycle controls.</p>
+                    </div>
+                </Link>
+
+                <Link
                     href="/admin/products"
                     className="group bg-white rounded-2xl p-6 border border-gray-200/80 shadow-xs hover:shadow-md hover:border-emerald-300 transition-all space-y-4"
                 >
@@ -181,6 +253,36 @@ export default function AdminOverviewPage() {
                     </div>
                 </Link>
             </div>
+        </div>
+    );
+}
+
+function AccountStatCard({
+    label,
+    value,
+    loading,
+    icon,
+    tone
+}: {
+    label: string;
+    value: number;
+    loading: boolean;
+    icon: React.ReactNode;
+    tone: 'emerald' | 'teal' | 'rose';
+}) {
+    const toneClass = {
+        emerald: 'bg-emerald-50 text-emerald-700',
+        teal: 'bg-teal-50 text-teal-700',
+        rose: 'bg-rose-50 text-rose-700'
+    }[tone];
+
+    return (
+        <div className="flex items-center justify-between rounded-2xl border border-gray-200/80 bg-white p-4 shadow-xs">
+            <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-500">{label}</p>
+                <p className="mt-1 text-2xl font-black text-gray-900">{loading ? '…' : value}</p>
+            </div>
+            <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${toneClass}`}>{icon}</div>
         </div>
     );
 }

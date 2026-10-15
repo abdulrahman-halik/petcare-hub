@@ -104,12 +104,14 @@ describe('E-Commerce Components Verification', () => {
             const paymentRoutes = require('../src/routes/paymentRoutes');
             const orderRoutes = require('../src/routes/orderRoutes');
             const supportRoutes = require('../src/routes/supportRoutes');
+            const adminAccountRoutes = require('../src/routes/adminAccountRoutes');
 
             assert.ok(productRoutes, 'Product routes should be exported');
             assert.ok(cartRoutes, 'Cart routes should be exported');
             assert.ok(paymentRoutes, 'Payment routes should be exported');
             assert.ok(orderRoutes, 'Order routes should be exported');
             assert.ok(supportRoutes, 'Support routes should be exported');
+            assert.ok(adminAccountRoutes, 'Admin account routes should be exported');
         });
     });
 });

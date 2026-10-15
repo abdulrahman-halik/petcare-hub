@@ -9,6 +9,7 @@ export interface User {
     name: string;
     email: string;
     role: string;
+    accountStatus?: 'active' | 'deactivated';
 }
 
 export interface LoginCredentials {

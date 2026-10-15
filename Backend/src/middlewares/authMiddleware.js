@@ -20,6 +20,13 @@ exports.protect = async (req, res, next) => {
                 return res.status(401).json({ status: 'fail', message: 'User belonging to token no longer exists' });
             }
 
+            if (req.user.accountStatus === 'deactivated') {
+                return res.status(403).json({
+                    status: 'fail',
+                    message: 'This account has been deactivated. Please contact an administrator.'
+                });
+            }
+
             next();
         } catch (error) {
             console.error('Auth protect error:', error.message);
@@ -44,6 +51,9 @@ exports.optionalAuth = async (req, res, next) => {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret123');
             req.user = await User.findById(decoded.id).select('-password');
+            if (req.user?.accountStatus === 'deactivated') {
+                req.user = null;
+            }
         } catch (error) {
             // Token is invalid/expired, continue as guest
             req.user = null;
